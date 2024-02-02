@@ -30,8 +30,22 @@ export default {
           20: '#F5CCD1',
           10: '#FDECEF',
         },
+        dark: '#140F0A',
       },
     },
   },
-  plugins: [],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          primary: '#BF9D7D',
+          info: '#3BADEF',
+          success: '#52DD7E',
+          warning: '#DA3E51',
+        },
+      },
+    ],
+  },
+  // eslint-disable-next-line no-undef
+  plugins: [require('daisyui')],
 };
