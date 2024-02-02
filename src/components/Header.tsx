@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
 import logo from '@/assets/images/pc/logo.png';
+import { useRef } from 'react';
 
 const Header = () => {
+  const drawerRef = useRef<HTMLInputElement | null>(null);
   function closeDrawer() {
-    document.getElementById('header-drawer')?.click();
+    drawerRef.current?.click();
   }
 
   return (
     <header className="drawer drawer-end">
-      <input id="header-drawer" type="checkbox" className="drawer-toggle" />
+      <input id="header-drawer" type="checkbox" className="drawer-toggle" ref={drawerRef} />
       <div className="drawer-content flex">
         <div className="w-full navbar px-4 bg-dark">
           <div className="flex-1">
