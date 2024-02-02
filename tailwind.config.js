@@ -5,32 +5,31 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#1CA69A',
+          120: '#7B6651',
+          100: '#BF9D7D',
+          80: '#D0B79F',
+          60: '#E1D1C2',
+          40: '#F1EAE4',
+          tint: '#FAF7F5',
         },
-        secondary: {
-          10: '#EDEDED',
-          30: '#C8C8C8',
-          50: '#A3A3A3',
-          66: '#868686',
-          DEFAULT: '#484848',
+        success: {
+          120: '#299F65',
+          100: '#52DD7E',
+          20: '#BCFBBD',
+          10: '#E8FEE7',
         },
-        gray: {
-          light: '#F5F5F8',
-          dark: '#D4D4D7',
+        info: {
+          120: '#1D66AC',
+          100: '#3BADEF',
+          20: '#B1EFFD',
+          10: '#E6FBFE',
         },
-        green: {
-          accent: {
-            10: '#EBFCFA',
-            DEFAULT: '#37DDC9',
-          },
+        alert: {
+          120: '#C22538',
+          100: '#DA3E51',
+          20: '#F5CCD1',
+          10: '#FDECEF',
         },
-        yellow: {
-          accent: '#FF9D21',
-        },
-        white: {
-          DEFAULT: '#FFFFFF',
-        },
-        error: '#E44461',
       },
     },
   },
