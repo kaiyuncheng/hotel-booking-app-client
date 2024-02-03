@@ -8,9 +8,12 @@ type Props = {
 
 const WhiteWideBtn = ({ link, children }: Props) => {
   return (
-    <Link to={link} className="w-full justify-end btn btn-secondary btn-lg font-bold text-black">
+    <Link
+      to={link}
+      className="group w-full justify-end btn btn-secondary border-none hover:bg-primary-100 btn-lg font-bold text-black hover:text-white"
+    >
       {children}
-      <span className="inline-block h-[1px] w-[120px] bg-black ml-5"></span>
+      <span className="inline-block h-[1px] w-[120px] bg-black group-hover:bg-white ml-5"></span>
     </Link>
   );
 };
