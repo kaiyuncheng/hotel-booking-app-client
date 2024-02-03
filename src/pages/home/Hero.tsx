@@ -1,9 +1,9 @@
-import WhiteWideBtn from '@/components/button/WhiteWideBtn';
+import WhiteWideBtn from '@/components/elements/WhiteWideBtn';
 import SlidersBanners from '@/components/sliders/SlidersBanners';
 
 const Hero = () => {
   return (
-    <div className="mt-[-80px] min-h-screen overflow-x-hidden">
+    <div className="mt-[-80px] overflow-hidden bg-primary-40">
       <div className="relative">
         <SlidersBanners />
         <div className="w-full h-3/4 px-4 md:px-10 max-w-screen-3xl flex flex-col md:flex-row items-center md:space-x-28 absolute left-1/2 -translate-x-1/2 top-[100px] md:top-[80px]">

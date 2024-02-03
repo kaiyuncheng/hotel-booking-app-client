@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
-import logo from '@/assets/images/pc/logo.png';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
+import Container from './Container';
+import logo from '@/assets/images/pc/logo.png';
 
 const Header = () => {
   const drawerRef = useRef<HTMLInputElement | null>(null);
@@ -11,9 +12,9 @@ const Header = () => {
   return (
     <header className="drawer drawer-end sticky top-0 z-20">
       <input id="header-drawer" type="checkbox" className="drawer-toggle" ref={drawerRef} />
-      <div className="max-w-screen-3xl w-full mx-auto">
+      <Container>
         <div className="drawer-content flex">
-          <div className="w-full navbar px-4 md:px-10 ">
+          <div className="w-full navbar">
             <div className="flex-1">
               <Link to="/" className="hover:scale-105 transition-all w-[160px]">
                 <img alt="hotel logo" src={logo} />
@@ -87,8 +88,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-      </div>
-
+      </Container>
       <div className="drawer-side">
         <ul className="menu py-4 px-10 w-full min-h-full bg-dark text-white text-base font-bold items-center justify-center space-y-6">
           <label
