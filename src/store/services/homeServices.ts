@@ -13,11 +13,16 @@ interface Culinary extends News {
   diningTime: string;
 }
 
+interface NewsRes {
+  status: string;
+  result: News[];
+}
+
 export const homeServices = createApi({
   reducerPath: 'homeServices',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://hotel-booking-app-znrf.onrender.com/api/v1/home/' }),
   endpoints: (builder) => ({
-    getNews: builder.query<News[], string | 'all'>({
+    getNews: builder.query<NewsRes, string | 'all'>({
       query: (id) => {
         if (id !== 'all') {
           return `news/${id}`;
