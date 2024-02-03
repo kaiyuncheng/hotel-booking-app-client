@@ -3,6 +3,16 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      screens: {
+        xs: '479px',
+        sm: '568px',
+        md: '768px',
+        lg: '992px',
+        xl: '1080px',
+        '2xl': '1280px',
+        '3xl': '1480px',
+        '4xl': '1600px',
+      },
       colors: {
         primary: {
           120: '#7B6651',
@@ -39,6 +49,7 @@ export default {
       {
         mytheme: {
           primary: '#BF9D7D',
+          secondary: '#FFFFFF',
           info: '#3BADEF',
           success: '#52DD7E',
           warning: '#DA3E51',

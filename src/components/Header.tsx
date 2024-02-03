@@ -9,27 +9,28 @@ const Header = () => {
   }
 
   return (
-    <header className="drawer drawer-end">
+    <header className="drawer drawer-end sticky top-0 z-20">
       <input id="header-drawer" type="checkbox" className="drawer-toggle" ref={drawerRef} />
-      <div className="drawer-content flex">
-        <div className="w-full navbar px-4 bg-dark">
-          <div className="flex-1">
-            <Link to="/" className="hover:scale-105 transition-all w-[160px]">
-              <img alt="hotel logo" src={logo} />
-            </Link>
-          </div>
-          <div className="flex-none hidden lg:block">
-            <ul className="menu menu-horizontal px-1 text-white text-base font-bold items-center space-x-2">
-              <li className=" hover:text-primary-100">
-                <Link to="/rooms" className="flex items-center">
-                  客房旅宿
-                </Link>
-              </li>
-              <li>
-                <Link to="/sign-in" className="flex items-center hover:text-primary-100">
-                  會員登入
-                </Link>
-                {/* <details>
+      <div className="max-w-screen-3xl w-full mx-auto">
+        <div className="drawer-content flex">
+          <div className="w-full navbar px-4 md:px-10 ">
+            <div className="flex-1">
+              <Link to="/" className="hover:scale-105 transition-all w-[160px]">
+                <img alt="hotel logo" src={logo} />
+              </Link>
+            </div>
+            <div className="flex-none hidden md:block">
+              <ul className="menu menu-horizontal px-1 text-white text-base font-bold items-center space-x-2">
+                <li className=" hover:text-primary-100">
+                  <Link to="/rooms" className="flex items-center">
+                    客房旅宿
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sign-in" className="flex items-center hover:text-primary-100">
+                    會員登入
+                  </Link>
+                  {/* <details>
                     <summary className="hover:text-primary-100">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -61,31 +62,33 @@ const Header = () => {
                       </li>
                     </ul>
                   </details> */}
-              </li>
-              <li className="btn btn-primary text-base font-bold text-white">
-                <Link to="/rooms">立即訂房</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="flex-none lg:hidden">
-            <label
-              htmlFor="header-drawer"
-              aria-label="open sidebar"
-              className="btn btn-square btn-ghost text-white  hover:text-primary-100"
-            >
-              <svg
-                className="fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 512 512"
+                </li>
+                <li className="btn btn-primary text-base font-bold text-white">
+                  <Link to="/rooms">立即訂房</Link>
+                </li>
+              </ul>
+            </div>
+            <div className="flex-none md:hidden">
+              <label
+                htmlFor="header-drawer"
+                aria-label="open sidebar"
+                className="btn btn-square btn-ghost text-white  hover:text-primary-100"
               >
-                <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
-              </svg>
-            </label>
+                <svg
+                  className="fill-current"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
+                </svg>
+              </label>
+            </div>
           </div>
         </div>
       </div>
+
       <div className="drawer-side">
         <ul className="menu py-4 px-10 w-full min-h-full bg-dark text-white text-base font-bold items-center justify-center space-y-6">
           <label

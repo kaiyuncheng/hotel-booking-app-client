@@ -1,8 +1,9 @@
+import Hero from './Hero';
+
 const Home = () => {
   return (
     <>
-      Home
-      <button className="btn">Hello daisyUI</button>
+      <Hero />
     </>
   );
 };
