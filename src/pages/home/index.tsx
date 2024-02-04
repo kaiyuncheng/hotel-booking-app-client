@@ -1,11 +1,10 @@
-// import Container from '@/components/Container';
-
 import Hero from './Hero';
 import News from './News';
 import RoomPromote from './RoomPromote';
 import About from './About';
 import Culinary from './Culinary';
 import Location from './Location';
+import Footer from '@/components/Footer';
 
 const Home = () => {
   return (
@@ -16,6 +15,7 @@ const Home = () => {
       <RoomPromote />
       <Culinary />
       <Location />
+      <Footer />
     </>
   );
 };

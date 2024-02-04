@@ -1,37 +1,49 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import clsx from 'clsx';
 import Container from './Container';
 import logo from '@/assets/images/pc/logo.png';
 
 const Header = () => {
+  const [top, setTop] = useState(true);
+
   const drawerRef = useRef<HTMLInputElement | null>(null);
   function closeDrawer() {
     drawerRef.current?.click();
   }
 
+  useEffect(() => {
+    const scrollHandler = () => {
+      window.scrollY > 130 ? setTop(false) : setTop(true);
+    };
+    window.addEventListener('scroll', scrollHandler);
+    return () => window.removeEventListener('scroll', scrollHandler);
+  }, [top]);
+
   return (
-    <header className="drawer drawer-end sticky top-0 z-20">
-      <input id="header-drawer" type="checkbox" className="drawer-toggle" ref={drawerRef} />
-      <Container>
-        <div className="drawer-content flex">
-          <div className="w-full navbar">
-            <div className="flex-1">
-              <Link to="/" className="hover:scale-105 transition-all w-[160px]">
-                <img alt="hotel logo" src={logo} />
-              </Link>
-            </div>
-            <div className="flex-none hidden md:block">
-              <ul className="menu menu-horizontal px-1 text-white text-base font-bold items-center space-x-2">
-                <li className=" hover:text-primary-100">
-                  <Link to="/rooms" className="flex items-center">
-                    客房旅宿
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/sign-in" className="flex items-center hover:text-primary-100">
-                    會員登入
-                  </Link>
-                  {/* <details>
+    <>
+      <header className={clsx(!top && 'bg-dark/70', 'drawer drawer-end sticky top-0 z-50  ')}>
+        <input id="header-drawer" type="checkbox" className="drawer-toggle" ref={drawerRef} />
+        <div className="drawer-content">
+          <Container>
+            <div className="w-full navbar">
+              <div className="flex-1">
+                <Link to="/" className="hover:scale-105 transition-all w-[160px]">
+                  <img alt="hotel logo" src={logo} />
+                </Link>
+              </div>
+              <div className="flex-none hidden md:block">
+                <ul className="menu menu-horizontal px-1 text-white text-base font-bold items-center space-x-2">
+                  <li className=" hover:text-primary-100">
+                    <Link to="/rooms" className="flex items-center">
+                      客房旅宿
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/sign-in" className="flex items-center hover:text-primary-100">
+                      會員登入
+                    </Link>
+                    {/* <details>
                     <summary className="hover:text-primary-100">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -63,86 +75,87 @@ const Header = () => {
                       </li>
                     </ul>
                   </details> */}
-                </li>
-                <li className="btn btn-primary text-base font-bold text-white">
-                  <Link to="/rooms">立即訂房</Link>
-                </li>
-              </ul>
-            </div>
-            <div className="flex-none md:hidden">
-              <label
-                htmlFor="header-drawer"
-                aria-label="open sidebar"
-                className="btn btn-square btn-ghost text-white  hover:text-primary-100"
-              >
-                <svg
-                  className="fill-current"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 512 512"
+                  </li>
+                  <li className="btn btn-primary text-base font-bold text-white">
+                    <Link to="/rooms">立即訂房</Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="flex-none md:hidden">
+                <label
+                  htmlFor="header-drawer"
+                  aria-label="open sidebar"
+                  className="btn btn-square btn-ghost text-white  hover:text-primary-100"
                 >
-                  <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
-                </svg>
-              </label>
+                  <svg
+                    className="fill-current"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 512 512"
+                  >
+                    <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
+                  </svg>
+                </label>
+              </div>
             </div>
-          </div>
+          </Container>
         </div>
-      </Container>
-      <div className="drawer-side">
-        <ul className="menu py-4 px-10 w-full min-h-full bg-dark text-white text-base font-bold items-center justify-center space-y-6">
-          <label
-            htmlFor="header-drawer"
-            aria-label="close sidebar"
-            className="absolute right-4 top-3 btn btn-square btn-ghost text-white  hover:text-primary-100"
-          >
-            <svg
-              className="fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 512 512"
+        <div className="drawer-side z-50">
+          <ul className="menu py-4 px-10 w-full min-h-screen bg-dark text-white text-base font-bold items-center justify-center space-y-6">
+            <label
+              htmlFor="header-drawer"
+              aria-label="close sidebar"
+              className="absolute right-4 top-3 btn btn-square btn-ghost text-white  hover:text-primary-100"
             >
-              <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
-            </svg>
-          </label>
-          <li className=" hover:text-primary-100">
-            <Link to="/rooms" className="flex items-center" onClick={closeDrawer}>
-              客房旅宿
-            </Link>
-          </li>
-          <li>
-            {/* <Link to="/sign-in" className="flex items-center hover:text-primary-100" onClick={closeDrawer}>
+              <svg
+                className="fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 512 512"
+              >
+                <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
+              </svg>
+            </label>
+            <li className=" hover:text-primary-100">
+              <Link to="/rooms" className="flex items-center" onClick={closeDrawer}>
+                客房旅宿
+              </Link>
+            </li>
+            <li>
+              {/* <Link to="/sign-in" className="flex items-center hover:text-primary-100" onClick={closeDrawer}>
                 會員登入
               </Link> */}
 
-            <details>
-              <summary className="hover:text-primary-100">我的帳號</summary>
-              <ul>
-                <li>
-                  <Link onClick={closeDrawer} to="/user" className="flex items-center hover:text-primary-100">
-                    個人資料
-                  </Link>
-                </li>
-                <li>
-                  <Link onClick={closeDrawer} to="/user/orders" className="flex items-center hover:text-primary-100">
-                    訂單管理
-                  </Link>
-                </li>
-                <li>
-                  <a onClick={closeDrawer}>登出</a>
-                </li>
-              </ul>
-            </details>
-          </li>
-          <li className="btn btn-primary text-base w-full font-bold text-white">
-            <Link to="/rooms" onClick={closeDrawer}>
-              立即訂房
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </header>
+              <details>
+                <summary className="hover:text-primary-100">我的帳號</summary>
+                <ul>
+                  <li>
+                    <Link onClick={closeDrawer} to="/user" className="flex items-center hover:text-primary-100">
+                      個人資料
+                    </Link>
+                  </li>
+                  <li>
+                    <Link onClick={closeDrawer} to="/user/orders" className="flex items-center hover:text-primary-100">
+                      訂單管理
+                    </Link>
+                  </li>
+                  <li>
+                    <a onClick={closeDrawer}>登出</a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li className="btn btn-primary text-base w-full font-bold text-white">
+              <Link to="/rooms" onClick={closeDrawer}>
+                立即訂房
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </header>
+    </>
   );
 };
 

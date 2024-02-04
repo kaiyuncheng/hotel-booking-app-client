@@ -31,7 +31,7 @@ const Culinary = () => {
           {!isLoading &&
             data?.result.map((item) => {
               return (
-                <div className="carousel-item relative">
+                <div className="carousel-item relative" key={item._id}>
                   <div className="rounded-md overflow-hidden">
                     <div className="aspect-[2/3]  w-[300px]">
                       <img className="w-full h-full object-cover" src={item.image} alt={item.title} />
