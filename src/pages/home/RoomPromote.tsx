@@ -1,28 +1,23 @@
-import WhiteWideBtn from '@/components/elements/WhiteWideBtn';
-import SlidersBanners from '@/components/sliders/SlidersBanners';
+import Loading from '@/components/elements/Loading';
+import SlidersRoomPromote from '@/components/sliders/SlidersRoomPromote';
+import { useGetRoomQuery } from '@/store/services/roomServices';
+import { Fade } from 'react-awesome-reveal';
 
 const RoomPromote = () => {
+  const { data, isLoading } = useGetRoomQuery('all');
+
   return (
-    <div className="overflow-hidden border border-red-500">
-      <div className="relative">
-        <div className="w-full h-3/4 px-4 md:px-10 max-w-screen-3xl flex flex-col md:flex-row items-center md:space-x-28">
-          <div className="w-full md:w-1/3 font-bold text-primary-100 flex flex-col items-center md:block mb-5 md:mb-0">
-            <SlidersBanners />
-          </div>
-          <div className="w-full md:w-2/3 pr-12 ml-20 md:pr-0 md:ml-0">
-            <div className="text-white py-10 pr-10 ">
-              <div className="-ml-8 -mr-5 md:mr-0">
-                <h2 className="text-2xl font-bold leading-snug md:leading-snug mb-2">尊爵雙人房</h2>
-                <p className="font-semibold mb-10">
-                  享受高級的住宿體驗，尊爵雙人房提供給您舒適寬敞的空間和精緻的裝潢。
-                </p>
-                <p>NT$ 10000</p>
-                <WhiteWideBtn link={'/rooms'}>查看更多</WhiteWideBtn>
-              </div>
-            </div>
-          </div>
+    <div className="relative overflow-hidden pt-20 md:pt-0 pb-20">
+      {isLoading && (
+        <div className="w-full flex justify-center pb-[600px]">
+          <Loading />
         </div>
-      </div>
+      )}
+      {!isLoading && data && (
+        <Fade triggerOnce direction="up">
+          <SlidersRoomPromote items={data?.result} />
+        </Fade>
+      )}
     </div>
   );
 };

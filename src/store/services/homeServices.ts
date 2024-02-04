@@ -18,6 +18,11 @@ interface NewsRes {
   result: News[];
 }
 
+interface CulinaryRes {
+  status: string;
+  result: Culinary[];
+}
+
 export const homeServices = createApi({
   reducerPath: 'homeServices',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://hotel-booking-app-znrf.onrender.com/api/v1/home/' }),
@@ -30,7 +35,7 @@ export const homeServices = createApi({
         return 'news';
       },
     }),
-    getCulinary: builder.query<Culinary[], string | 'all'>({
+    getCulinary: builder.query<CulinaryRes, string | 'all'>({
       query: (id) => {
         if (id !== 'all') {
           return `culinary/${id}`;

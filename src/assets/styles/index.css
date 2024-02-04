@@ -18,3 +18,13 @@
 .slick-dots li{
   width: auto;
 }
+
+.room-promote-custom-dots{
+  width: 55%;
+}
+
+@media screen and (min-width: 768px) {
+  .room-promote-custom-dots{
+    width: 40%;
+  }
+}

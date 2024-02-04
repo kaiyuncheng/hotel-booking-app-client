@@ -16,7 +16,7 @@ const SlidersBanners = () => {
     dots: true,
     dotsClass: 'slick-dots custom-dots',
     infinite: true,
-    speed: 2000,
+    speed: 1000,
     autoplay: true,
     fade: true,
     slidesToScroll: 1,

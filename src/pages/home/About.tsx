@@ -3,10 +3,11 @@ import Container from '@/components/Container';
 import Title from '@/components/elements/Title';
 import dots from '@/assets/images/pc/dot.png';
 import aboutBg from '@/assets/images/pc/about.jpg';
+import { Fade } from 'react-awesome-reveal';
 
 const About = () => {
   return (
-    <div className="py-20 border border-blue-500">
+    <div className="py-20 mb-0 sm:mb-24 md:mb-10 lg:mb-20 2xl:mb-0">
       <div className="w-full relative">
         <div className="aspect-[1/2] xs:aspect-[3/4] sm:aspect-[16/13] lg:aspect-[16/9] xl:aspect-[16/7]">
           <img src={aboutBg} alt="swimming pool" className="w-full h-full object-cover" />
@@ -16,8 +17,8 @@ const About = () => {
             <div className="absolute left-0 -top-40 z-10">
               <img className="w-40" src={dots} alt="dots" />
             </div>
-            <div className="flex justify-end ">
-              <div className="flex flex-col w-full md:w-3/4 mt-10 rounded-l-[40px] rounded-tr-[40px] border-l border-b border-white p-16 backdrop-blur-sm bg-gradient-to-b from-dark/80 to-primary-100/80 text-white">
+            <Fade triggerOnce direction="up" className="flex justify-end">
+              <div className="flex flex-col w-full md:w-3/4 mt-10 rounded-l-[40px] rounded-tr-[40px] border-l border-b border-white p-10 md:p-16 backdrop-blur-sm bg-gradient-to-b from-dark/80 to-primary-100/80 text-white">
                 <div className="w-full mb-10">
                   <Title>關於我們</Title>
                 </div>
@@ -38,7 +39,7 @@ const About = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </Fade>
           </Container>
         </div>
       </div>
