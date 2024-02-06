@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import Container from './Container';
 import logo from '@/assets/images/pc/logo.png';
@@ -7,10 +7,22 @@ import logo from '@/assets/images/pc/logo.png';
 const Header = () => {
   const [top, setTop] = useState(true);
 
+  const [transparent, setTransparent] = useState(true);
+  const location = useLocation();
+  const { pathname } = location;
+
   const drawerRef = useRef<HTMLInputElement | null>(null);
   function closeDrawer() {
     drawerRef.current?.click();
   }
+
+  useEffect(() => {
+    if (pathname === '/rooms' || pathname === '/') {
+      setTransparent(true);
+    } else {
+      setTransparent(false);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -22,7 +34,13 @@ const Header = () => {
 
   return (
     <>
-      <header className={clsx(!top && 'bg-dark/70', 'drawer drawer-end sticky top-0 z-50  ')}>
+      <header
+        className={clsx(
+          transparent && !top && 'bg-dark/70',
+          !transparent && 'bg-dark',
+          'drawer drawer-end sticky top-0 z-50',
+        )}
+      >
         <input id="header-drawer" type="checkbox" className="drawer-toggle" ref={drawerRef} />
         <div className="drawer-content">
           <Container>
