@@ -1,26 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-interface News {
-  _id: string;
-  title: string;
-  description: string;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Culinary extends News {
-  diningTime: string;
-}
+import type { INews, ICulinary } from '@/types/home';
 
 interface NewsRes {
   status: string;
-  result: News[];
+  result: INews[];
 }
 
 interface CulinaryRes {
   status: string;
-  result: Culinary[];
+  result: ICulinary[];
 }
 
 export const homeServices = createApi({

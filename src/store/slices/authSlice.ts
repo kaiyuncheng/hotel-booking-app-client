@@ -1,25 +1,9 @@
 import { RootState } from '../store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-type Address = {
-  zipcode: number | null;
-  detail: string;
-  county: string;
-  city: string;
-};
-
-type UserInfo = {
-  _id: string;
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  birthday: string;
-  address: Address;
-};
+import type { IUser } from '@/types/user';
 
 type Auth = {
-  userInfo: UserInfo;
+  userInfo: IUser;
   userToken: string | null;
 };
 

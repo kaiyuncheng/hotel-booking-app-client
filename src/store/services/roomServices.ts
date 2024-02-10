@@ -1,33 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-type ImageUrl = string;
-
-type Info = {
-  title: string;
-  isProvide: boolean;
-};
-
-export interface Room {
-  _id: string;
-  name: string;
-  description: string;
-  imageUrl: ImageUrl;
-  imageUrlList: ImageUrl[];
-  areaInfo: string;
-  bedInfo: string;
-  maxPeople: number;
-  price: number;
-  status: number;
-  layoutInfo: Info[];
-  facilityInfo: Info[];
-  amenityInfo: Info[];
-  createdAt: string;
-  updatedAt: string;
-}
+import type { IRoom } from '@/types/room';
 
 interface RoomRes {
   status: string;
-  result: Room[];
+  result: IRoom[];
 }
 
 export const roomServices = createApi({

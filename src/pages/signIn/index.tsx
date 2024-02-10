@@ -1,64 +1,88 @@
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import { useState } from 'react';
-import registerBg from '@/assets/images/pc/register.jpg';
+import { Link } from 'react-router-dom';
+import TextInput from '@/components/form/TextInput';
+
+type SignInForm = {
+  email: string;
+  password: string;
+};
+
+const schema = Yup.object().shape({
+  email: Yup.string().required('email為必填欄位').email('email格式不對'),
+  password: Yup.string().required('密碼為必填欄位'),
+});
 const SignIn = () => {
-  const { register, handleSubmit } = useForm();
-  const [data, setData] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInForm>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit: SubmitHandler<SignInForm> = (data) => {
+    console.log('form data : ', data);
+  };
 
   return (
-    <div className="w-full flex max-h-screen">
-      <div className="w-1/2">
-        <div className="aspect-square">
-          <img className="w-full h-full object-cover" src={registerBg} alt="hotel" />
-        </div>
-      </div>
-      <div className="w-1/2 text-white">
-        <p>享樂酒店，誠摯歡迎</p>
-        <p>立即開始旅程</p>
+    <>
+      <p className="text-primary-100 text-sm mb-2">享樂酒店，誠摯歡迎</p>
+      <p className="text-white text-4xl mb-10">立即開始旅程</p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <TextInput
+          label="電子信箱"
+          type="email"
+          name="email"
+          placeholder="hello@example.com"
+          register={register}
+          errors={errors}
+        />
+        <TextInput
+          label="密碼"
+          type="password"
+          name="password"
+          placeholder="請輸入密碼"
+          register={register}
+          errors={errors}
+        />
 
-        <div className="hero min-h-screen bg-base-200">
-          <div className="hero-content flex-col lg:flex-row-reverse">
-            <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-              <form className="card-body">
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Email</span>
-                  </label>
-                  <input type="email" placeholder="email" className="input input-bordered" required />
-                </div>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Password</span>
-                  </label>
-                  <input type="password" placeholder="password" className="input input-bordered" required />
-                  <label className="label">
-                    <a href="#" className="label-text-alt link link-hover">
-                      Forgot password?
-                    </a>
-                  </label>
-                </div>
-                <div className="form-control mt-6">
-                  <button className="btn btn-primary">Login</button>
-                </div>
-              </form>
-            </div>
+        <div className="flex justify-between mb-5">
+          <div className="form-control">
+            <label htmlFor="rememberMe" className="label cursor-pointer">
+              <input id="rememberMe" type="checkbox" className="checkbox checkbox-primary" />
+              <span className="label-text ml-2 text-white">記住帳號</span>
+            </label>
           </div>
-        </div>
 
-        <form onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}>
-          <input {...register('firstName')} placeholder="First name" />
-          <select {...register('category', { required: true })}>
-            <option value="">Select...</option>
-            <option value="A">Option A</option>
-            <option value="B">Option B</option>
-          </select>
-          <textarea {...register('aboutYou')} placeholder="About you" />
-          <p>{data}</p>
-          <input type="submit" />
-        </form>
-      </div>
-    </div>
+          <Link
+            to="/forget-password"
+            className="underline hover:no-underline flex items-center text-sm text-primary-100 hover:text-white"
+          >
+            忘記密碼？
+          </Link>
+        </div>
+        <div className="form-control mb-2">
+          <button type="submit" className="btn btn-secondary font-bold">
+            會員登入
+          </button>
+        </div>
+        <div className="flex text-sm">
+          <label className="label text-white">
+            沒有會員嗎？
+            <Link to="/sign-up" className="ml-2 underline hover:no-underline text-primary-100 hover:text-white">
+              前往註冊
+            </Link>
+          </label>
+        </div>
+      </form>
+    </>
   );
 };
 

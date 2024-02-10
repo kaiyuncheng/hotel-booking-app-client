@@ -2,10 +2,10 @@ import { useState } from 'react';
 import Slider from 'react-slick';
 import type { CustomArrowProps, Settings } from 'react-slick';
 import WhiteWideBtn from '../elements/WhiteWideBtn';
-import type { Room } from '@/store/services/roomServices';
+import type { IRoom } from '@/types/room';
 
 type Props = {
-  items: Room[];
+  items: IRoom[];
 };
 
 function PrevArrow({ onClick }: CustomArrowProps) {

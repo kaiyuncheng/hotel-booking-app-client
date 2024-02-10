@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import Home from '@/pages/home';
 
+import SignLayout from '@/components/SignLayout';
 import SignIn from '@/pages/signIn';
 import SignUp from '@/pages/signUp';
 import ForgetPassword from '@/pages/forgetPassword';
@@ -39,13 +40,13 @@ const routes: RouteObject[] = [
       },
       {
         path: '/sign-in',
-        element: <SignIn />,
-        children: [],
+        element: <SignLayout />,
+        children: [{ index: true, element: <SignIn /> }],
       },
       {
         path: '/sign-up',
-        element: <SignUp />,
-        children: [],
+        element: <SignLayout />,
+        children: [{ index: true, element: <SignUp /> }],
       },
       {
         path: '/forget-password',
