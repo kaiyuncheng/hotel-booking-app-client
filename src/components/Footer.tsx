@@ -1,10 +1,14 @@
 import Container from '@/components/Container';
 import { Link } from 'react-router-dom';
 import logo from '@/assets/images/pc/logo.png';
+import line2 from '@/assets/images/pc/line2.png';
 
 const Footer = () => {
   return (
     <footer className="bg-dark text-white pt-5 pb-10">
+      <div className="mb-10">
+        <img className="w-full" src={line2} alt="line2" />
+      </div>
       <Container>
         <div className="relative flex flex-col md:flex-row justify-between mb-10">
           <div className="flex flex-col space-y-5 mb-5 md:mb-0">

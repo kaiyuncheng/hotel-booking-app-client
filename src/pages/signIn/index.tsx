@@ -1,20 +1,26 @@
+import { Link } from 'react-router-dom';
+import TextInput from '@/components/form/TextInput';
+
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Link } from 'react-router-dom';
-import TextInput from '@/components/form/TextInput';
-
-type SignInForm = {
-  email: string;
-  password: string;
-};
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import type { SignInForm } from '@/store/services/authServices';
+import { setCredentials } from '@/store/slices/authSlice';
+import { useSignInMutation } from '@/store/services/authServices';
 
 const schema = Yup.object().shape({
   email: Yup.string().required('email為必填欄位').email('email格式不對'),
   password: Yup.string().required('密碼為必填欄位'),
 });
 const SignIn = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [signIn] = useSignInMutation();
+  // const userEmail = localStorage.getItem('userEmail') ? localStorage.getItem('userEmail') : '';
+
   const {
     register,
     handleSubmit,
@@ -22,13 +28,28 @@ const SignIn = () => {
   } = useForm<SignInForm>({
     resolver: yupResolver(schema),
     defaultValues: {
-      email: '',
+      email: localStorage.getItem('userEmail') ?? '',
       password: '',
+      isRemember: false,
     },
   });
 
-  const onSubmit: SubmitHandler<SignInForm> = (data) => {
+  const onSubmit: SubmitHandler<SignInForm> = async (data) => {
     console.log('form data : ', data);
+    try {
+      const res = await signIn({ email: data.email, password: data.password }).unwrap();
+      data.isRemember ? localStorage.setItem('userEmail', data.email) : localStorage.removeItem('userEmail');
+      localStorage.setItem('userToken', res.token);
+      dispatch(
+        setCredentials({
+          userToken: res.token,
+          userInfo: res.result,
+        }),
+      );
+      navigate('/');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -55,8 +76,13 @@ const SignIn = () => {
 
         <div className="flex justify-between mb-5">
           <div className="form-control">
-            <label htmlFor="rememberMe" className="label cursor-pointer">
-              <input id="rememberMe" type="checkbox" className="checkbox checkbox-primary" />
+            <label htmlFor="isRemember" className="label cursor-pointer">
+              <input
+                {...register('isRemember')}
+                id="isRemember"
+                type="checkbox"
+                className="checkbox checkbox-primary"
+              />
               <span className="label-text ml-2 text-white">記住帳號</span>
             </label>
           </div>

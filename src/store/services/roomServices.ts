@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { IRoom } from '@/types/room';
+import type { IRes } from '@/types/response';
 
-interface RoomRes {
-  status: string;
+interface RoomRes extends IRes {
   result: IRoom[];
 }
 
@@ -21,6 +21,4 @@ export const roomServices = createApi({
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const { useGetRoomQuery } = roomServices;

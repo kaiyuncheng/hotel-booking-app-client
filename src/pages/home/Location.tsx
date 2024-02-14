@@ -1,11 +1,10 @@
 import { Fade } from 'react-awesome-reveal';
 import Container from '@/components/Container';
 import Title from '@/components/elements/Title';
-import line2 from '@/assets/images/pc/line2.png';
 
 const Location = () => {
   return (
-    <div className="bg-dark pt-20 pb-10 overflow-x-hidden">
+    <div className="bg-dark pt-20 overflow-x-hidden">
       <Container>
         <div className="relative flex flex-col max-w-screen-lg mx-auto text-white">
           <div className="w-full mb-10">
@@ -87,9 +86,6 @@ const Location = () => {
           </Fade>
         </div>
       </Container>
-      <div className="">
-        <img className="w-full" src={line2} alt="line2" />
-      </div>
     </div>
   );
 };

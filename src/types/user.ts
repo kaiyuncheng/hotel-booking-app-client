@@ -19,4 +19,6 @@ export interface IUser {
   phone?: string;
   birthday?: IBirthday | string;
   address?: IAddress;
+  createdAt?: string;
+  updatedAt?: string;
 }

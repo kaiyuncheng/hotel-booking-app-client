@@ -25,7 +25,7 @@ const News = () => {
               </div>
             )}
             {!isLoading &&
-              data?.result.map((item) => {
+              data?.result?.map((item) => {
                 return (
                   <Fade triggerOnce direction="up" key={item._id}>
                     <div className="card md:card-side md:space-x-5">

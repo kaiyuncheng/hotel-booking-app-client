@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import Home from '@/pages/home';
+import AuthOutlet from '@/components/AuthOutlet';
 
 import SignLayout from '@/components/SignLayout';
 import SignIn from '@/pages/signIn';
@@ -27,12 +28,23 @@ const routes: RouteObject[] = [
         element: <Rooms />,
         children: [
           { path: '/rooms/:id', element: <Room /> },
-          { path: '/rooms/:id/booking', element: <Booking /> },
+          {
+            path: '/rooms/:id/booking',
+            element: (
+              <AuthOutlet>
+                <Booking />
+              </AuthOutlet>
+            ),
+          },
         ],
       },
       {
         path: '/user',
-        element: <UserLayout />,
+        element: (
+          <AuthOutlet>
+            <UserLayout />
+          </AuthOutlet>
+        ),
         children: [
           { index: true, element: <User /> },
           { path: '/user/orders', element: <Orders /> },
@@ -40,12 +52,20 @@ const routes: RouteObject[] = [
       },
       {
         path: '/sign-in',
-        element: <SignLayout />,
+        element: (
+          <AuthOutlet>
+            <SignLayout />
+          </AuthOutlet>
+        ),
         children: [{ index: true, element: <SignIn /> }],
       },
       {
         path: '/sign-up',
-        element: <SignLayout />,
+        element: (
+          <AuthOutlet>
+            <SignLayout />
+          </AuthOutlet>
+        ),
         children: [{ index: true, element: <SignUp /> }],
       },
       {

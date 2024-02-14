@@ -1,14 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { INews, ICulinary } from '@/types/home';
+import type { IRes } from '@/types/response';
 
-interface NewsRes {
-  status: string;
-  result: INews[];
+interface NewsRes extends IRes {
+  result?: INews[];
 }
 
-interface CulinaryRes {
-  status: string;
-  result: ICulinary[];
+interface CulinaryRes extends IRes {
+  result?: ICulinary[];
 }
 
 export const homeServices = createApi({
@@ -34,6 +33,4 @@ export const homeServices = createApi({
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const { useGetNewsQuery, useGetCulinaryQuery } = homeServices;
