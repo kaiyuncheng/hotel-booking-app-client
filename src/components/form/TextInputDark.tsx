@@ -10,7 +10,7 @@ type Props<T extends FieldValues> = {
   errors?: FieldErrors<T>;
 };
 
-const TextInput = <T extends FieldValues>({
+const TextInputDark = <T extends FieldValues>({
   label,
   type = 'text',
   placeholder,
@@ -64,4 +64,4 @@ const TextInput = <T extends FieldValues>({
   );
 };
 
-export default TextInput;
+export default TextInputDark;

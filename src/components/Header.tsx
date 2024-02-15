@@ -7,7 +7,6 @@ import { clearCredentials, selectUser } from '@/store/slices/authSlice';
 
 import Container from './Container';
 import logo from '@/assets/images/pc/logo.png';
-// import Loading from './elements/Loading';
 
 const Header = () => {
   const [top, setTop] = useState(true);
@@ -107,7 +106,7 @@ const Header = () => {
                         </div>
                         <ul
                           tabIndex={0}
-                          className="pb-5 text-base dropdown-content top-[60px] w-[160px] bg-dark rounded-b-lg"
+                          className="p-2 pb-5 text-base dropdown-content top-[60px] w-[160px] bg-dark rounded-b-lg"
                         >
                           <li className="items-center ">
                             <button

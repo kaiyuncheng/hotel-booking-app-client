@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -110,7 +111,14 @@ const SignUp = () => {
         {step === 2 && <FormStep2 register={register} errors={errors} watch={watch} setValue={setValue} />}
 
         <div className="form-control mt-4 mb-2">
-          <button type="submit" className="btn btn-secondary font-bold">
+          <button
+            type="submit"
+            className={clsx(
+              step === 1 && 'btn-secondary',
+              step === 2 && 'btn-primary text-white',
+              'btn font-bold text-base',
+            )}
+          >
             {step === 1 ? '下一步' : '完成註冊'}
           </button>
         </div>

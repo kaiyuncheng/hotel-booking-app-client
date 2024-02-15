@@ -1,4 +1,4 @@
-import TextInput from '@/components/form/TextInput';
+import TextInputDark from '@/components/form/TextInputDark';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 type Props<T extends FieldValues> = {
@@ -9,7 +9,7 @@ type Props<T extends FieldValues> = {
 const FormStep1 = <T extends FieldValues>({ register, errors }: Props<T>) => {
   return (
     <>
-      <TextInput
+      <TextInputDark
         label="電子信箱"
         type="email"
         name="email"
@@ -17,7 +17,7 @@ const FormStep1 = <T extends FieldValues>({ register, errors }: Props<T>) => {
         register={register}
         errors={errors}
       />
-      <TextInput
+      <TextInputDark
         label="密碼"
         type="password"
         name="password"
@@ -25,7 +25,7 @@ const FormStep1 = <T extends FieldValues>({ register, errors }: Props<T>) => {
         register={register}
         errors={errors}
       />
-      <TextInput
+      <TextInputDark
         label="確認密碼"
         type="password"
         name="passwordConfirm"

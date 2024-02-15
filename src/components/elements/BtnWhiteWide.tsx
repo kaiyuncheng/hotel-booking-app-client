@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode;
 };
 
-const WhiteWideBtn = ({ link, children }: Props) => {
+const BtnWhiteWide = ({ link, children }: Props) => {
   return (
     <Link
       to={link}
@@ -18,4 +18,4 @@ const WhiteWideBtn = ({ link, children }: Props) => {
   );
 };
 
-export default WhiteWideBtn;
+export default BtnWhiteWide;

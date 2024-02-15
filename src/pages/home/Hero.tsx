@@ -1,4 +1,4 @@
-import WhiteWideBtn from '@/components/elements/WhiteWideBtn';
+import BtnWhiteWide from '@/components/elements/BtnWhiteWide';
 import SlidersBanners from '@/components/sliders/SlidersBanners';
 
 const Hero = () => {
@@ -21,7 +21,7 @@ const Hero = () => {
                   豪華住宿之選
                 </h2>
                 <p className="font-semibold mb-10">我們致力於為您提供無與倫比的奢華體驗與優質服務</p>
-                <WhiteWideBtn link={'/rooms'}>立即訂房</WhiteWideBtn>
+                <BtnWhiteWide link={'/rooms'}>立即訂房</BtnWhiteWide>
               </div>
             </div>
           </div>

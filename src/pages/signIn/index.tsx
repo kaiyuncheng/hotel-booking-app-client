@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
-import TextInput from '@/components/form/TextInput';
+import { toast } from 'react-toastify';
+
+import TextInputDark from '@/components/form/TextInputDark';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -10,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import type { SignInForm } from '@/store/services/authServices';
 import { setCredentials } from '@/store/slices/authSlice';
 import { useSignInMutation } from '@/store/services/authServices';
+import { IErrorRes } from '@/types/response';
+import Loading from '@/components/elements/Loading';
 
 const schema = Yup.object().shape({
   email: Yup.string().required('email為必填欄位').email('email格式不對'),
@@ -18,9 +22,7 @@ const schema = Yup.object().shape({
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [signIn] = useSignInMutation();
-  // const userEmail = localStorage.getItem('userEmail') ? localStorage.getItem('userEmail') : '';
-
+  const [signIn, { isLoading }] = useSignInMutation();
   const {
     register,
     handleSubmit,
@@ -35,11 +37,11 @@ const SignIn = () => {
   });
 
   const onSubmit: SubmitHandler<SignInForm> = async (data) => {
-    console.log('form data : ', data);
+    // console.log('form data : ', data);
     try {
       const res = await signIn({ email: data.email, password: data.password }).unwrap();
       data.isRemember ? localStorage.setItem('userEmail', data.email) : localStorage.removeItem('userEmail');
-      localStorage.setItem('userToken', res.token);
+      localStorage.setItem('userToken', res.token as string);
       dispatch(
         setCredentials({
           userToken: res.token,
@@ -48,7 +50,7 @@ const SignIn = () => {
       );
       navigate('/');
     } catch (err) {
-      console.log(err);
+      toast.error((err as IErrorRes)?.data.message);
     }
   };
 
@@ -57,7 +59,7 @@ const SignIn = () => {
       <p className="text-primary-100 text-sm mb-2">享樂酒店，誠摯歡迎</p>
       <p className="text-white text-4xl mb-10">立即開始旅程</p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <TextInput
+        <TextInputDark
           label="電子信箱"
           type="email"
           name="email"
@@ -65,7 +67,7 @@ const SignIn = () => {
           register={register}
           errors={errors}
         />
-        <TextInput
+        <TextInputDark
           label="密碼"
           type="password"
           name="password"
@@ -95,8 +97,9 @@ const SignIn = () => {
           </Link>
         </div>
         <div className="form-control mb-2">
-          <button type="submit" className="btn btn-secondary font-bold">
-            會員登入
+          <button type="submit" className="btn btn-secondary font-bold text-base">
+            {isLoading && <Loading />}
+            {!isLoading && '會員登入'}
           </button>
         </div>
         <div className="flex text-sm">

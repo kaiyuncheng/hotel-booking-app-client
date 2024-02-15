@@ -2,7 +2,11 @@ import { Link, Outlet } from 'react-router-dom';
 import userBg from '@/assets/images/pc/userBg.jpg';
 import Container from './Container';
 
+import { useSelector } from 'react-redux';
+import { selectUser } from '@/store/slices/authSlice';
+
 const UserLayout = () => {
+  const userInfo = useSelector(selectUser);
   return (
     <div className="text-white">
       <div className="relative">
@@ -16,7 +20,7 @@ const UserLayout = () => {
               <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
             </div>
           </div>
-          <p className="text-4xl font-bold">Hello, Jessica</p>
+          <p className="text-4xl font-bold">Hello, {userInfo?.name ?? ''}</p>
         </div>
       </div>
 

@@ -8,20 +8,13 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from 'react-hook-form';
-import { useState, useEffect, useCallback } from 'react';
-import SelectInput from '@/components/form/SelectInput';
-import TextInput from '@/components/form/TextInput';
+import { useState, useEffect } from 'react';
+import SelectInputDark from '@/components/form/SelectInputDark';
+import TextInputDark from '@/components/form/TextInputDark';
 import addressJson from '@/data/address.json';
 import type { IAddress, IBirthday } from '@/types/user';
-
-interface City {
-  [zipCode: string]: string;
-}
-
-interface AddressData {
-  county: { [countyCode: string]: string };
-  city: { [countyCode: string]: City };
-}
+import type { IAddressData, ICity } from '@/hooks/useAddress';
+import { useCountyOrder, useZipCode } from '@/hooks/useAddress';
 
 interface Props<T extends FieldValues> {
   register: UseFormRegister<T>;
@@ -35,35 +28,14 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
   const thisYear = new Date().getFullYear();
 
   // address
-  const addressData: AddressData = addressJson;
-  const [cityData, setCityData] = useState<City | null>(null);
+  const addressData: IAddressData = addressJson;
+  const [cityData, setCityData] = useState<ICity | null>(null);
   const [zipCode, setZipCode] = useState<string>('');
   const [cityOrder, setCityOrder] = useState<string | null>(null);
   const watchAddress = watch('address' as Path<T>);
 
-  const handleCountyOrder = useCallback(
-    (county: string): string | null => {
-      for (const [order, item] of Object.entries(addressData.county)) {
-        if (item === county) {
-          return order;
-        }
-      }
-      return null;
-    },
-    [addressData.county],
-  );
-
-  const handleZipCode = useCallback(
-    (order: string, city: string): string => {
-      for (const [zip, item] of Object.entries(addressData.city[order])) {
-        if (item === city) {
-          return zip;
-        }
-      }
-      return '';
-    },
-    [addressData.city],
-  );
+  const handleCountyOrder = useCountyOrder(addressData);
+  const handleZipCode = useZipCode(addressData);
 
   useEffect(() => {
     if (watchAddress?.county) {
@@ -88,15 +60,15 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
 
   return (
     <>
-      <TextInput label="姓名" name="name" placeholder="請輸入姓名" register={register} errors={errors} />
-      <TextInput label="手機號碼" name="phone" placeholder="請輸入手機號碼" register={register} errors={errors} />
+      <TextInputDark label="姓名" name="name" placeholder="請輸入姓名" register={register} errors={errors} />
+      <TextInputDark label="手機號碼" name="phone" placeholder="請輸入手機號碼" register={register} errors={errors} />
 
       <div className="form-control w-full">
         <label className="label pt-0">
           <span className="label-text text-white">生日</span>
         </label>
         <div className="flex w-full space-x-2">
-          <SelectInput
+          <SelectInputDark
             label="年"
             name="birthday.year"
             className="w-1/3"
@@ -109,7 +81,7 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
               );
             })}
           />
-          <SelectInput
+          <SelectInputDark
             label="月"
             name="birthday.month"
             className="w-1/3"
@@ -122,7 +94,7 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
               );
             })}
           />
-          <SelectInput
+          <SelectInputDark
             label="日"
             name="birthday.day"
             className="w-1/3"
@@ -169,7 +141,7 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
         <div className="flex w-full space-x-2">
           <p className="w-1/5 input input-primary flex justify-center items-center">{zipCode}</p>
 
-          <SelectInput
+          <SelectInputDark
             label="縣市"
             name="address.county"
             className="w-2/5"
@@ -185,7 +157,7 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
               })
             }
           />
-          <SelectInput
+          <SelectInputDark
             label="鄉鎮"
             name="address.city"
             className="w-2/5"
@@ -226,7 +198,7 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
           )}
         </label>
       </div>
-      <TextInput name="address.detail" placeholder="請輸入詳細地址" register={register} errors={errors} />
+      <TextInputDark name="address.detail" placeholder="請輸入詳細地址" register={register} errors={errors} />
 
       <div className="form-control flex-row">
         <label htmlFor="isAgree" className="label cursor-pointer">

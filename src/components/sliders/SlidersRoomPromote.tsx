@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Slider from 'react-slick';
 import type { CustomArrowProps, Settings } from 'react-slick';
-import WhiteWideBtn from '../elements/WhiteWideBtn';
+import BtnWhiteWide from '../elements/BtnWhiteWide';
 import type { IRoom } from '@/types/room';
 
 type Props = {
@@ -81,7 +81,7 @@ const SlidersRoomPromote: React.FC<Props> = ({ items }) => {
                   <h3 className="text-2xl font-bold mb-2">{item.name} </h3>
                   <p className="font-semibold mb-5 md:mb-10">{item.description}</p>
                   <p className="text-2xl font-bold mb-5 md:mb-10">NT$ {item.price}</p>
-                  <WhiteWideBtn link={`/rooms/${item._id}`}>查看更多</WhiteWideBtn>
+                  <BtnWhiteWide link={`/rooms/${item._id}`}>查看更多</BtnWhiteWide>
                 </div>
               </div>
             </div>

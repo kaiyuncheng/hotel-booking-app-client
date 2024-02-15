@@ -7,6 +7,7 @@ import Header from './Header';
 import { setCredentials, selectToken } from '@/store/slices/authSlice';
 import { useGetUserQuery } from '@/store/services/userServices';
 import LoadingFullPage from './elements/LoadingFullPage';
+import { ToastContainer, Bounce } from 'react-toastify';
 
 const Layout = () => {
   const token = useSelector(selectToken);
@@ -29,6 +30,19 @@ const Layout = () => {
           <Outlet />
         </>
       )}
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </>
   );
 };

@@ -10,13 +10,17 @@ type Props<T extends FieldValues> = {
   render: ReactNode;
 };
 
-const SelectInput = <T extends FieldValues>({ label, name, className, register, render, ...props }: Props<T>) => {
+const SelectInputWhite = <T extends FieldValues>({ label, name, className, register, render, ...props }: Props<T>) => {
   return (
-    <select {...register(name as Path<T>)} className={clsx(className, 'select select-primary')} {...props}>
+    <select
+      {...register(name as Path<T>)}
+      className={clsx(className, 'select select-primary border-gray-300')}
+      {...props}
+    >
       <option value="">{label}</option>
       {render}
     </select>
   );
 };
 
-export default SelectInput;
+export default SelectInputWhite;
