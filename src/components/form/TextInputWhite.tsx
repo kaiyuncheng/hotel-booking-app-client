@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Path, FieldErrors, FieldValues, UseFormRegister, FieldError } from 'react-hook-form';
 
 type Props<T extends FieldValues> = {
@@ -9,6 +10,7 @@ type Props<T extends FieldValues> = {
   register: UseFormRegister<T>;
   errors?: FieldErrors<T>;
   error?: FieldError;
+  className?: string;
 };
 
 const TextInputWhite = <T extends FieldValues>({
@@ -20,10 +22,11 @@ const TextInputWhite = <T extends FieldValues>({
   register,
   errors,
   error,
+  className,
   ...props
 }: Props<T>) => {
   return (
-    <div className="form-control">
+    <div className={clsx(className, 'form-control')}>
       {label && (
         <label className="label pt-0 pl-0" htmlFor={name}>
           <span className="label-text font-bold text-base">

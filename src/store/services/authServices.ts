@@ -23,22 +23,56 @@ export interface SignUpRes extends IRes {
   result?: IUser;
 }
 
+export interface ForgotPasswordForm {
+  email: string;
+  code?: string;
+  newPassword?: string;
+  newPasswordConfirm?: string;
+}
+
+export interface VerifyEmailRes extends IRes {
+  result?: {
+    isEmailExists: boolean;
+  };
+}
+
 export const authServices = createApi({
   reducerPath: 'authServices',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://hotel-booking-app-znrf.onrender.com/api/v1/user',
+    baseUrl: 'https://hotel-booking-app-znrf.onrender.com/api/v1',
   }),
   endpoints: (builder) => ({
     signIn: builder.mutation<SignInRes, SignInForm>({
       query: (credentials) => ({
-        url: '/login',
+        url: '/user/login',
         method: 'POST',
         body: credentials,
       }),
     }),
     signUp: builder.mutation<SignUpRes, SignUpForm>({
       query: (dataForm) => ({
-        url: '/signup',
+        url: '/user/signup',
+        method: 'POST',
+        body: dataForm,
+      }),
+    }),
+    forgotPassword: builder.mutation<IRes, ForgotPasswordForm>({
+      query: (dataForm) => ({
+        url: '/user/forgot',
+        method: 'POST',
+        body: dataForm,
+      }),
+    }),
+    generateCode: builder.mutation<IRes, ForgotPasswordForm>({
+      query: (dataForm) => ({
+        url: '/verify/generateEmailCode',
+        method: 'POST',
+        body: dataForm,
+      }),
+    }),
+    verifyEmail: builder.mutation<VerifyEmailRes, { email: string }>({
+      query: (dataForm) => ({
+        url: '/verify/email',
         method: 'POST',
         body: dataForm,
       }),
@@ -46,4 +80,10 @@ export const authServices = createApi({
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation } = authServices;
+export const {
+  useSignInMutation,
+  useSignUpMutation,
+  useForgotPasswordMutation,
+  useGenerateCodeMutation,
+  useVerifyEmailMutation,
+} = authServices;

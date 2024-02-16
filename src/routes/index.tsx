@@ -70,8 +70,12 @@ const routes: RouteObject[] = [
       },
       {
         path: '/forget-password',
-        element: <ForgetPassword />,
-        children: [],
+        element: (
+          <AuthOutlet>
+            <SignLayout />
+          </AuthOutlet>
+        ),
+        children: [{ index: true, element: <ForgetPassword /> }],
       },
     ],
   },

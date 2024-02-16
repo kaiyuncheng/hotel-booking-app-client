@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Path, FieldErrors, FieldValues, UseFormRegister, FieldError } from 'react-hook-form';
 
 type Props<T extends FieldValues> = {
@@ -9,6 +10,8 @@ type Props<T extends FieldValues> = {
   register: UseFormRegister<T>;
   errors?: FieldErrors<T>;
   error?: FieldError;
+  className?: string;
+  disabled?: boolean;
 };
 
 const TextInputDark = <T extends FieldValues>({
@@ -20,10 +23,12 @@ const TextInputDark = <T extends FieldValues>({
   register,
   errors,
   error,
+  className,
+  disabled = false,
   ...props
 }: Props<T>) => {
   return (
-    <div className="form-control">
+    <div className={clsx(className, 'form-control')}>
       {label && (
         <label className="label pt-0" htmlFor={name}>
           <span className="label-text text-white">
@@ -40,7 +45,8 @@ const TextInputDark = <T extends FieldValues>({
         {...register(name as Path<T>)}
         autoComplete={type === 'password' ? 'new-password' : undefined}
         {...props}
-        className="input input-primary"
+        className="input input-primary disabled:bg-white/50"
+        disabled={disabled}
       />
       <label className="label text-primary-100">
         {error && (

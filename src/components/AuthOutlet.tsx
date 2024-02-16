@@ -10,7 +10,8 @@ type Props = {
 const AuthOutlet = ({ children }: Props) => {
   const token = useSelector(selectToken);
   const location = useLocation();
-  const isSignInOrSignUp = location.pathname === '/sign-in' || location.pathname === '/sign-up';
+  const isSignInOrSignUp =
+    location.pathname === '/sign-in' || location.pathname === '/sign-up' || location.pathname === '/forget-password';
 
   if (token) {
     return isSignInOrSignUp ? <Navigate to="/" state={{ from: location }} /> : children;
