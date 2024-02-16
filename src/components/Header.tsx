@@ -7,6 +7,7 @@ import { clearCredentials, selectUser } from '@/store/slices/authSlice';
 
 import Container from './Container';
 import logo from '@/assets/images/pc/logo.png';
+import { toast } from 'react-toastify';
 
 const Header = () => {
   const [top, setTop] = useState(true);
@@ -31,6 +32,7 @@ const Header = () => {
     }
     dispatch(clearCredentials());
     localStorage.removeItem('userToken');
+    toast.success('已成功登出');
   };
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { Path, FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { Path, FieldErrors, FieldValues, UseFormRegister, FieldError } from 'react-hook-form';
 
 type Props<T extends FieldValues> = {
   label?: string;
@@ -8,6 +8,7 @@ type Props<T extends FieldValues> = {
   required?: boolean;
   register: UseFormRegister<T>;
   errors?: FieldErrors<T>;
+  error?: FieldError;
 };
 
 const TextInputDark = <T extends FieldValues>({
@@ -18,6 +19,7 @@ const TextInputDark = <T extends FieldValues>({
   required = false,
   register,
   errors,
+  error,
   ...props
 }: Props<T>) => {
   return (
@@ -41,6 +43,24 @@ const TextInputDark = <T extends FieldValues>({
         className="input input-primary"
       />
       <label className="label text-primary-100">
+        {error && (
+          <span className="label-text-alt">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current w-4 h-4 inline-block mr-1 mb-0.5"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            {error.message}
+          </span>
+        )}
         {errors && errors[name] && (
           <span className="label-text-alt">
             <svg

@@ -32,7 +32,7 @@ const Layout = () => {
       )}
       <ToastContainer
         position="bottom-left"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

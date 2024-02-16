@@ -198,7 +198,12 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
           )}
         </label>
       </div>
-      <TextInputDark name="address.detail" placeholder="請輸入詳細地址" register={register} errors={errors} />
+      <TextInputDark
+        name="address.detail"
+        placeholder="請輸入詳細地址"
+        register={register}
+        error={(errors?.address as FieldErrors)?.detail as FieldError}
+      />
 
       <div className="form-control flex-row">
         <label htmlFor="isAgree" className="label cursor-pointer">
@@ -211,6 +216,26 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
           <span className="label-text ml-2 text-white">我已閱讀並同意本網站個資使用規範</span>
         </label>
       </div>
+      {errors?.isAgree && (
+        <label className="label text-primary-100">
+          <span className="label-text-alt">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current w-4 h-4 inline-block mr-1 mb-0.5"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            {errors?.isAgree?.message as string}
+          </span>
+        </label>
+      )}
     </>
   );
 };

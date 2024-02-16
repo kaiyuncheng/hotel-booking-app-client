@@ -1,19 +1,23 @@
 import { useState } from 'react';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import type { IUser } from '@/types/user';
 
 import Step from './Step';
 import FormStep1 from './FormStep1';
 import FormStep2 from './FormStep2';
 
-interface SignUpForm extends IUser {
-  passwordConfirm?: string;
-  isAgree?: boolean;
-}
+import type { IErrorRes } from '@/types/response';
+import type { IBirthday } from '@/types/user';
+
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '@/store/slices/authSlice';
+import { useSignUpMutation, type SignUpForm } from '@/store/services/authServices';
+import Loading from '@/components/elements/Loading';
 
 const getSchemaForStep = (step: number) => {
   switch (step) {
@@ -53,6 +57,11 @@ const getSchemaForStep = (step: number) => {
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [signUp, { isLoading }] = useSignUpMutation();
+
   const {
     register,
     handleSubmit,
@@ -88,11 +97,37 @@ const SignUp = () => {
     setStep((curr) => curr + 1);
   };
 
+  const submitSignUpForm = async (data: SignUpForm) => {
+    try {
+      const dataForm = {
+        ...data,
+        birthday: `${(data?.birthday as IBirthday)?.year}/${(data?.birthday as IBirthday)?.month}/${(data?.birthday as IBirthday)?.day}`,
+      };
+
+      delete dataForm.isAgree;
+      delete dataForm.passwordConfirm;
+
+      console.log(dataForm);
+      const res = await signUp(dataForm).unwrap();
+
+      dispatch(
+        setCredentials({
+          userToken: res.token,
+          userInfo: res.result,
+        }),
+      );
+      toast.success('會員註冊成功');
+      navigate('/');
+    } catch (err) {
+      toast.error((err as IErrorRes)?.data.message);
+    }
+  };
+
   const onSubmit: SubmitHandler<SignUpForm> = (data) => {
     if (step < 2) {
       nextStep();
     } else if (isValid) {
-      console.log('form data : ', data);
+      submitSignUpForm(data);
     }
   };
 
@@ -105,6 +140,8 @@ const SignUp = () => {
         <div className="h-[1px] w-1/2 mx-5 flex-shrink bg-white"></div>
         <Step title="填寫基本資料" num={2} active={step === 2} setStep={setStep} isValid={isValid} />
       </div>
+
+      {console.log(errors)}
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {step === 1 && <FormStep1 register={register} errors={errors} />}
@@ -119,7 +156,9 @@ const SignUp = () => {
               'btn font-bold text-base',
             )}
           >
-            {step === 1 ? '下一步' : '完成註冊'}
+            {step === 1 && '下一步'}
+            {step === 2 && !isLoading && '完成註冊'}
+            {isLoading && <Loading />}
           </button>
         </div>
 

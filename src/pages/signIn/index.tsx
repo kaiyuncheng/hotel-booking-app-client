@@ -48,6 +48,7 @@ const SignIn = () => {
           userInfo: res.result,
         }),
       );
+      toast.success('會員登入成功');
       navigate('/');
     } catch (err) {
       toast.error((err as IErrorRes)?.data.message);
