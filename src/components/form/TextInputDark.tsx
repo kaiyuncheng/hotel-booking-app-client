@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Path, FieldErrors, FieldValues, UseFormRegister, FieldError } from 'react-hook-form';
+import Loading from '../elements/Loading';
 
 type Props<T extends FieldValues> = {
   label?: string;
@@ -13,6 +14,7 @@ type Props<T extends FieldValues> = {
   className?: string;
   disabled?: boolean;
   rules?: object;
+  isLoading?: boolean;
 };
 
 const TextInputDark = <T extends FieldValues>({
@@ -27,6 +29,7 @@ const TextInputDark = <T extends FieldValues>({
   className,
   disabled = false,
   rules,
+  isLoading,
   ...props
 }: Props<T>) => {
   return (
@@ -39,17 +42,23 @@ const TextInputDark = <T extends FieldValues>({
           </span>
         </label>
       )}
-
-      <input
-        id={name}
-        type={type}
-        placeholder={placeholder}
-        {...register(name as Path<T>, rules)}
-        autoComplete={type === 'password' ? 'new-password' : undefined}
-        {...props}
-        className="input input-primary disabled:bg-white/50"
-        disabled={disabled}
-      />
+      <div className="relative w-full">
+        <input
+          id={name}
+          type={type}
+          placeholder={placeholder}
+          {...register(name as Path<T>, rules)}
+          autoComplete={type === 'password' ? 'new-password' : undefined}
+          {...props}
+          className="input input-primary disabled:bg-white/50 w-full"
+          disabled={disabled}
+        />
+        {isLoading && (
+          <div className="absolute right-2 top-1">
+            <Loading />
+          </div>
+        )}
+      </div>
       <label className="label text-primary-100">
         {error && (
           <span className="label-text-alt">

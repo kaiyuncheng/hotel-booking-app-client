@@ -25,8 +25,8 @@ const SignUp = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [signUp, { isLoading }] = useSignUpMutation();
-  const [verifyEmail] = useVerifyEmailMutation();
+  const [signUp, { isLoading: signUpLoading }] = useSignUpMutation();
+  const [verifyEmail, { isLoading: verifyEmailLoading }] = useVerifyEmailMutation();
 
   const getSchemaForStep = (step: number) => {
     switch (step) {
@@ -190,6 +190,7 @@ const SignUp = () => {
             watch={watch}
             setError={setError}
             handleValidate={handleValidate}
+            isLoading={verifyEmailLoading}
           />
         )}
         {step === 2 && <FormStep2 register={register} errors={errors} watch={watch} setValue={setValue} />}
@@ -204,8 +205,8 @@ const SignUp = () => {
             )}
           >
             {step === 1 && '下一步'}
-            {step === 2 && !isLoading && '完成註冊'}
-            {isLoading && <Loading />}
+            {step === 2 && !signUpLoading && '完成註冊'}
+            {signUpLoading && <Loading />}
           </button>
         </div>
 

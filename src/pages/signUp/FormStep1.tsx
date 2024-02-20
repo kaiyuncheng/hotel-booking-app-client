@@ -7,9 +7,10 @@ type Props<T extends FieldValues> = {
   watch?: UseFormWatch<T>;
   setError?: UseFormSetError<T>;
   handleValidate?: () => void;
+  isLoading?: boolean;
 };
 
-const FormStep1 = <T extends FieldValues>({ register, errors, handleValidate }: Props<T>) => {
+const FormStep1 = <T extends FieldValues>({ register, errors, handleValidate, isLoading }: Props<T>) => {
   return (
     <>
       <TextInputDark
@@ -22,6 +23,7 @@ const FormStep1 = <T extends FieldValues>({ register, errors, handleValidate }: 
         rules={{
           onBlur: handleValidate,
         }}
+        isLoading={isLoading}
       />
       <TextInputDark
         label="密碼"
