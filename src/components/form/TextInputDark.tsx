@@ -12,6 +12,7 @@ type Props<T extends FieldValues> = {
   error?: FieldError;
   className?: string;
   disabled?: boolean;
+  rules?: object;
 };
 
 const TextInputDark = <T extends FieldValues>({
@@ -25,6 +26,7 @@ const TextInputDark = <T extends FieldValues>({
   error,
   className,
   disabled = false,
+  rules,
   ...props
 }: Props<T>) => {
   return (
@@ -42,7 +44,7 @@ const TextInputDark = <T extends FieldValues>({
         id={name}
         type={type}
         placeholder={placeholder}
-        {...register(name as Path<T>)}
+        {...register(name as Path<T>, rules)}
         autoComplete={type === 'password' ? 'new-password' : undefined}
         {...props}
         className="input input-primary disabled:bg-white/50"

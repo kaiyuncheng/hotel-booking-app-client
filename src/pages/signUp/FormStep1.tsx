@@ -1,12 +1,15 @@
 import TextInputDark from '@/components/form/TextInputDark';
-import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, FieldValues, UseFormRegister, UseFormSetError, UseFormWatch } from 'react-hook-form';
 
 type Props<T extends FieldValues> = {
   register: UseFormRegister<T>;
   errors?: FieldErrors<T>;
+  watch?: UseFormWatch<T>;
+  setError?: UseFormSetError<T>;
+  handleValidate?: () => void;
 };
 
-const FormStep1 = <T extends FieldValues>({ register, errors }: Props<T>) => {
+const FormStep1 = <T extends FieldValues>({ register, errors, handleValidate }: Props<T>) => {
   return (
     <>
       <TextInputDark
@@ -16,6 +19,9 @@ const FormStep1 = <T extends FieldValues>({ register, errors }: Props<T>) => {
         placeholder="hello@example.com"
         register={register}
         errors={errors}
+        rules={{
+          onBlur: handleValidate,
+        }}
       />
       <TextInputDark
         label="密碼"

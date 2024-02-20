@@ -16,51 +16,62 @@ import type { IBirthday } from '@/types/user';
 
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '@/store/slices/authSlice';
-import { useSignUpMutation, type SignUpForm } from '@/store/services/authServices';
+import { useSignUpMutation, useVerifyEmailMutation, type SignUpForm } from '@/store/services/authServices';
 import Loading from '@/components/elements/Loading';
-
-const getSchemaForStep = (step: number) => {
-  switch (step) {
-    case 1:
-      return Yup.object().shape({
-        email: Yup.string().required('email為必填欄位').email('email格式不對'),
-        password: Yup.string()
-          .required('密碼為必填欄位')
-          .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
-            '密碼必須包含8個字符，其中至少包含一個大寫字母，一個小寫字母，一個數字',
-          ),
-        passwordConfirm: Yup.string()
-          .required('確認密碼為必填欄位')
-          .oneOf([Yup.ref('password')], '與上方密碼不相同'),
-      });
-    case 2:
-      return Yup.object().shape({
-        name: Yup.string().required('姓名為必填欄位'),
-        phone: Yup.string().required('手機號碼為必填欄位'),
-        birthday: Yup.object().shape({
-          year: Yup.string().required('此為必填欄位'),
-          month: Yup.string().required('此為必填欄位'),
-          day: Yup.string().required('此為必填欄位'),
-        }),
-        address: Yup.object().shape({
-          detail: Yup.string().required('此為必填欄位'),
-          county: Yup.string().required('此為必填欄位'),
-          city: Yup.string().required('此為必填欄位'),
-        }),
-        isAgree: Yup.boolean().oneOf([true], '需要同意條款').required('需要同意條款'),
-      });
-    default:
-      return Yup.object().shape({});
-  }
-};
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
+  const [isSameEmail, setIsSameEmail] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [signUp, { isLoading }] = useSignUpMutation();
+  const [verifyEmail] = useVerifyEmailMutation();
+
+  const getSchemaForStep = (step: number) => {
+    switch (step) {
+      case 1:
+        return Yup.object().shape({
+          email: Yup.string()
+            .required('email為必填欄位')
+            .matches(/^[a-z0-9.]{1,64}@[a-z0-9]+\.[a-zA-Z]{2,}$/, 'email格式不對')
+            .test('check', '此信箱已註冊過', () => {
+              if (isSameEmail) {
+                return false;
+              } else {
+                return true;
+              }
+            }),
+          password: Yup.string()
+            .required('密碼為必填欄位')
+            .matches(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+              '密碼必須包含8個字符，其中至少包含一個大寫字母，一個小寫字母，一個數字',
+            ),
+          passwordConfirm: Yup.string()
+            .required('確認密碼為必填欄位')
+            .oneOf([Yup.ref('password')], '與上方密碼不相同'),
+        });
+      case 2:
+        return Yup.object().shape({
+          name: Yup.string().required('姓名為必填欄位'),
+          phone: Yup.string().required('手機號碼為必填欄位'),
+          birthday: Yup.object().shape({
+            year: Yup.string().required('此為必填欄位'),
+            month: Yup.string().required('此為必填欄位'),
+            day: Yup.string().required('此為必填欄位'),
+          }),
+          address: Yup.object().shape({
+            detail: Yup.string().required('此為必填欄位'),
+            county: Yup.string().required('此為必填欄位'),
+            city: Yup.string().required('此為必填欄位'),
+          }),
+          isAgree: Yup.boolean().oneOf([true], '需要同意條款').required('需要同意條款'),
+        });
+      default:
+        return Yup.object().shape({});
+    }
+  };
 
   const {
     register,
@@ -68,6 +79,8 @@ const SignUp = () => {
     getValues,
     setValue,
     watch,
+    setError,
+    trigger,
     formState: { errors, isValid },
   } = useForm<SignUpForm>({
     resolver: yupResolver(getSchemaForStep(step)),
@@ -124,10 +137,36 @@ const SignUp = () => {
   };
 
   const onSubmit: SubmitHandler<SignUpForm> = (data) => {
-    if (step < 2) {
+    if (step < 2 && !isSameEmail) {
       nextStep();
-    } else if (isValid) {
+    } else if (isValid && !isSameEmail) {
       submitSignUpForm(data);
+    }
+  };
+
+  const verifyEmailApi = async (value: string) => {
+    try {
+      const res = await verifyEmail({ email: value }).unwrap();
+      if (res.status && res.result?.isEmailExists) {
+        setError('email', { type: 'verify', message: '此信箱已註冊過' });
+        setIsSameEmail(true);
+      } else {
+        setIsSameEmail(false);
+        trigger('email');
+      }
+    } catch (err) {
+      setIsSameEmail(false);
+      trigger('email');
+      console.log('err', err);
+    }
+  };
+
+  const handleValidate = () => {
+    setIsSameEmail(false);
+    trigger('email');
+    const emailValue = getValues('email');
+    if (emailValue && /^[a-z0-9.]{1,64}@[a-z0-9]+\.[a-z]{2,}$/i.test(emailValue)) {
+      verifyEmailApi(emailValue);
     }
   };
 
@@ -138,13 +177,21 @@ const SignUp = () => {
       <div className="mb-10 md:mb-5 flex justify-between items-center text-white">
         <Step title="輸入信箱及密碼" num={1} active={true} setStep={setStep} isValid={isValid} />
         <div className="h-[1px] w-1/2 mx-5 flex-shrink bg-white"></div>
-        <Step title="填寫基本資料" num={2} active={step === 2} setStep={setStep} isValid={isValid} />
+        <Step title="填寫基本資料" num={2} active={step === 2} setStep={setStep} isValid={isValid && !isSameEmail} />
       </div>
 
-      {console.log(errors)}
+      {/* {console.log(errors)} */}
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        {step === 1 && <FormStep1 register={register} errors={errors} />}
+        {step === 1 && (
+          <FormStep1
+            register={register}
+            errors={errors}
+            watch={watch}
+            setError={setError}
+            handleValidate={handleValidate}
+          />
+        )}
         {step === 2 && <FormStep2 register={register} errors={errors} watch={watch} setValue={setValue} />}
 
         <div className="form-control mt-4 mb-2">
