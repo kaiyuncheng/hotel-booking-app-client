@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
-import { IUser } from '@/types/user';
+import type { IUser } from '@/types/user';
 import type { IRes } from '@/types/response';
 
 interface GetUserRes extends IRes {
@@ -12,10 +12,16 @@ interface CheckUserRes extends IRes {
   token?: string;
 }
 
-// interface UpdateUserRes extends IRes {
-//   status: boolean;
-//   message: string;
-// }
+interface UpdateUserRes extends IRes {
+  result?: IUser;
+}
+
+export interface UpdateUserForm extends IUser {
+  userId?: string;
+  oldPassword?: string;
+  newPassword?: string;
+  newPasswordConfirm?: string;
+}
 
 export const userServices = createApi({
   reducerPath: 'userServices',
@@ -42,7 +48,14 @@ export const userServices = createApi({
         method: 'GET',
       }),
     }),
+    updateUser: builder.mutation<UpdateUserRes, UpdateUserForm>({
+      query: (dataForm) => ({
+        url: '/',
+        method: 'PUT',
+        body: dataForm,
+      }),
+    }),
   }),
 });
 
-export const { useGetUserQuery, useCheckUserQuery } = userServices;
+export const { useGetUserQuery, useCheckUserQuery, useUpdateUserMutation } = userServices;

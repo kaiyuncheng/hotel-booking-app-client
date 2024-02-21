@@ -175,7 +175,6 @@ const FormStep2 = <T extends FieldValues>({ register, errors, watch, setValue }:
             }
           />
         </div>
-
         <label className="label text-primary-100">
           {((errors?.address as IAddress)?.county || (errors?.address as IAddress)?.city) && (
             <span className="label-text-alt">

@@ -2,13 +2,26 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { IoIosCloseCircleOutline } from 'react-icons/io';
+import { toast } from 'react-toastify';
 import TextInputWhite from '@/components/form/TextInputWhite';
+import Loading from '@/components/elements/Loading';
 
-interface NewPasswordForm {
+import { Dispatch, SetStateAction } from 'react';
+import { useUpdateUserMutation } from '@/store/services/userServices';
+import type { IUser } from '@/types/user';
+import type { IErrorRes } from '@/types/response';
+
+type Props = {
+  setIsEditPasswordOpen: Dispatch<SetStateAction<boolean>>;
+  userInfo: IUser;
+};
+
+type UpdateUserForm = {
   oldPassword: string;
   newPassword: string;
   newPasswordConfirm: string;
-}
+};
 
 const schema = Yup.object().shape({
   oldPassword: Yup.string().required('舊密碼為必填欄位'),
@@ -23,12 +36,14 @@ const schema = Yup.object().shape({
     .oneOf([Yup.ref('newPassword')], '與上方密碼不相同'),
 });
 
-const EditPassword = () => {
+const EditPassword = ({ setIsEditPasswordOpen, userInfo }: Props) => {
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<NewPasswordForm>({
+  } = useForm<UpdateUserForm>({
     resolver: yupResolver(schema),
     defaultValues: {
       oldPassword: '',
@@ -37,30 +52,33 @@ const EditPassword = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<NewPasswordForm> = async (data) => {
-    console.log('form data : ', data);
-    // try {
-    //   const res = await signIn({ email: data.email, password: data.password }).unwrap();
-    //   data.isRemember ? localStorage.setItem('userEmail', data.email) : localStorage.removeItem('userEmail');
-    //   localStorage.setItem('userToken', res.token);
-    //   dispatch(
-    //     setCredentials({
-    //       userToken: res.token,
-    //       userInfo: res.result,
-    //     }),
-    //   );
-    //   navigate('/');
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  const onSubmit: SubmitHandler<UpdateUserForm> = async (data) => {
+    try {
+      const dataForm = {
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+        userId: userInfo._id,
+      };
+      const res = await updateUser(dataForm).unwrap();
+      if (res.status) {
+        toast.success('密碼修改成功');
+        setIsEditPasswordOpen(false);
+      }
+    } catch (err) {
+      toast.error((err as IErrorRes)?.data.message);
+    }
   };
 
   return (
-    <div className="w-full md:w-1/2 bg-white rounded-xl p-10">
+    <div className="relative w-full md:w-1/2 bg-white rounded-xl p-10">
+      <button onClick={() => setIsEditPasswordOpen(false)} className="absolute right-8 top-8 " type="button">
+        <IoIosCloseCircleOutline className="w-10 h-10 text-primary-100 hover:text-primary-120" />
+      </button>
       <h3 className="text-xl font-bold mb-5">修改密碼</h3>
+
       <div className="mb-3">
         <h4 className="font-bold">電子信箱</h4>
-        <p>Jessica@exsample.com</p>
+        {userInfo && <p>{userInfo.email}</p>}
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -92,7 +110,8 @@ const EditPassword = () => {
         />
         <div className="form-control mt-4">
           <button type="submit" className="btn btn-primary text-white w-full font-bold text-base">
-            儲存設定
+            {isLoading && <Loading />}
+            {!isLoading && '儲存設定'}
           </button>
         </div>
       </form>

@@ -1,9 +1,14 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useForm, SubmitHandler, FieldError } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { IUser } from '@/types/user';
+import type { IErrorRes } from '@/types/response';
+import type { IBirthday, IUser } from '@/types/user';
+import Loading from '@/components/elements/Loading';
 import TextInputWhite from '@/components/form/TextInputWhite';
 import SelectInputWhite from '@/components/form/SelectInputWhite';
 
@@ -11,10 +16,26 @@ import addressJson from '@/data/address.json';
 import type { IAddress } from '@/types/user';
 import type { IAddressData, ICity } from '@/hooks/useAddress';
 import { useCountyOrder, useZipCode } from '@/hooks/useAddress';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
 
-interface EditUserInfoForm extends IUser {
-  userId?: string;
-}
+import { useUpdateUserMutation } from '@/store/services/userServices';
+import { setCredentials } from '@/store/slices/authSlice';
+
+type Props = {
+  setIsEditUserInfoOpen: Dispatch<SetStateAction<boolean>>;
+  userInfo: IUser;
+};
+
+type EditUserInfoForm = {
+  name: string;
+  phone: string;
+  birthday: { year: string; month: string; day: string };
+  address: {
+    detail: string;
+    county: string;
+    city: string;
+  };
+};
 
 const schema = Yup.object().shape({
   name: Yup.string().required('姓名為必填欄位'),
@@ -31,32 +52,33 @@ const schema = Yup.object().shape({
   }),
 });
 
-const EditPassword = () => {
+const EditPassword = ({ setIsEditUserInfoOpen, userInfo }: Props) => {
   const {
     register,
     handleSubmit,
-    // getValues,
     setValue,
     watch,
     formState: { errors },
   } = useForm<EditUserInfoForm>({
     resolver: yupResolver(schema),
     defaultValues: {
-      name: '',
-      phone: '',
+      name: userInfo?.name || '',
+      phone: userInfo?.phone || '',
       birthday: {
-        year: '',
-        month: '',
-        day: '',
+        year: (userInfo?.birthday as string)?.slice(0, 4) || '',
+        month: String(parseInt((userInfo?.birthday as string)?.slice(5, 7), 10)) || '',
+        day: String(parseInt((userInfo?.birthday as string)?.slice(8, 10), 10)) || '',
       },
       address: {
-        zipcode: null,
-        detail: '',
-        county: '',
-        city: '',
+        detail: userInfo?.address?.detail || '',
+        county: userInfo?.address?.county || '',
+        city: userInfo?.address?.city || '',
       },
     },
   });
+
+  const dispatch = useDispatch();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const thisYear = new Date().getFullYear();
   // address
@@ -65,7 +87,6 @@ const EditPassword = () => {
   const [zipCode, setZipCode] = useState<string>('');
   const [cityOrder, setCityOrder] = useState<string | null>(null);
   const watchAddress = watch('address');
-
   const handleCountyOrder = useCountyOrder(addressData);
   const handleZipCode = useZipCode(addressData);
 
@@ -92,24 +113,28 @@ const EditPassword = () => {
 
   const onSubmit: SubmitHandler<EditUserInfoForm> = async (data) => {
     console.log('form data : ', data);
-    // try {
-    //   const res = await signIn({ email: data.email, password: data.password }).unwrap();
-    //   data.isRemember ? localStorage.setItem('userEmail', data.email) : localStorage.removeItem('userEmail');
-    //   localStorage.setItem('userToken', res.token);
-    //   dispatch(
-    //     setCredentials({
-    //       userToken: res.token,
-    //       userInfo: res.result,
-    //     }),
-    //   );
-    //   navigate('/');
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      const dataForm = {
+        ...data,
+        birthday: `${(data?.birthday as IBirthday)?.year}/${(data?.birthday as IBirthday)?.month}/${(data?.birthday as IBirthday)?.day}`,
+        userId: userInfo._id,
+      };
+      const res = await updateUser(dataForm).unwrap();
+      if (res.status) {
+        dispatch(setCredentials({ userInfo: res.result }));
+        toast.success('資料修改成功');
+        setIsEditUserInfoOpen(false);
+      }
+    } catch (err) {
+      toast.error((err as IErrorRes)?.data.message);
+    }
   };
 
   return (
-    <div className="w-full md:w-1/2 bg-white rounded-xl p-10">
+    <div className="relative w-full md:w-1/2 bg-white rounded-xl p-10">
+      <button onClick={() => setIsEditUserInfoOpen(false)} className="absolute right-8 top-8 " type="button">
+        <IoIosCloseCircleOutline className="w-10 h-10 text-primary-100 hover:text-primary-120" />
+      </button>
       <h3 className="text-xl font-bold mb-5">修改基本資料</h3>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -168,7 +193,9 @@ const EditPassword = () => {
             />
           </div>
           <label className="label text-primary-100">
-            {(errors?.birthday?.year || errors?.birthday?.month || errors?.birthday?.day) && (
+            {((errors?.birthday as IBirthday)?.year ||
+              (errors?.birthday as IBirthday)?.month ||
+              (errors?.birthday as IBirthday)?.day) && (
               <span className="label-text-alt">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +210,9 @@ const EditPassword = () => {
                     d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                   />
                 </svg>
-                {errors?.birthday?.year?.message || errors?.birthday?.month?.message || errors?.birthday?.day?.message}
+                {((errors?.birthday as IBirthday)?.year as unknown as FieldError)?.message ||
+                  ((errors?.birthday as IBirthday)?.month as unknown as FieldError)?.message ||
+                  ((errors?.birthday as IBirthday)?.day as unknown as FieldError)?.message}
               </span>
             )}
           </label>
@@ -256,7 +285,8 @@ const EditPassword = () => {
 
         <div className="form-control mt-4">
           <button type="submit" className="btn btn-primary text-white w-full font-bold text-base">
-            儲存設定
+            {isLoading && <Loading />}
+            {!isLoading && '儲存設定'}
           </button>
         </div>
       </form>
