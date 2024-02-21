@@ -1,12 +1,20 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import userBg from '@/assets/images/pc/userBg.jpg';
 import Container from './Container';
-
 import { useSelector } from 'react-redux';
 import { selectUser } from '@/store/slices/authSlice';
+import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 
 const UserLayout = () => {
   const userInfo = useSelector(selectUser);
+  const location = useLocation();
+  const [isUser, setIsUser] = useState(false);
+
+  useEffect(() => {
+    setIsUser(location.pathname === '/user');
+  }, [location.pathname]);
+
   return (
     <div className="text-white">
       <div className="relative">
@@ -26,13 +34,25 @@ const UserLayout = () => {
 
       <Container>
         <ul className="flex font-bold py-10 space-x-10">
-          <li className="text-primary-100">
+          <li className={clsx(isUser && 'text-primary-100', !isUser && 'text-white hover:text-primary-100', 'group')}>
             <Link to="/user">個人資料</Link>
-            <div className="w-1/2 translate-x-1/2 bg-primary-100 h-1 rounded-md mt-2"></div>
+            <div
+              className={clsx(
+                isUser && 'bg-primary-100',
+                !isUser && 'bg-white group-hover:bg-primary-100',
+                'w-1/2 translate-x-1/2 h-1 rounded-md mt-2',
+              )}
+            ></div>
           </li>
-          <li className="group text-white hover:text-primary-100">
+          <li className={clsx(!isUser && 'text-primary-100', isUser && 'text-white hover:text-primary-100', 'group')}>
             <Link to="/user/orders">我的訂單</Link>
-            <div className="w-1/2 translate-x-1/2 bg-white group-hover:bg-primary-100 h-1 rounded-md mt-2"></div>
+            <div
+              className={clsx(
+                !isUser && 'bg-primary-100',
+                isUser && 'bg-white group-hover:bg-primary-100',
+                'w-1/2 translate-x-1/2 h-1 rounded-md mt-2',
+              )}
+            ></div>
           </li>
         </ul>
       </Container>
