@@ -53,6 +53,12 @@ const Room = () => {
     }
   }, [error, navigate]);
 
+  const handleDateFormat = new Intl.DateTimeFormat('zh-TW', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
   const handleNum = (format: string) => {
     if (format === '+' && data?.result.maxPeople && num < data.result.maxPeople) {
       setNum(num + 1);
@@ -85,14 +91,13 @@ const Room = () => {
     dispatch(
       setOrder({
         roomId: data?.result,
-        checkInDate: startDate,
-        checkOutDate: endDate,
+        checkInDate: handleDateFormat.format(startDate).replace(/-/g, '/'),
+        checkOutDate: handleDateFormat.format(endDate).replace(/-/g, '/'),
         peopleNum: num,
         night: night,
       }),
     );
-
-    navigate(`/rooms/${data?.result._id}}/booking`);
+    navigate(`/rooms/${data?.result._id}/booking`);
   };
 
   const DatepickerContainer = ({ children }: { children: ReactNode }) => {
@@ -102,17 +107,17 @@ const Room = () => {
           <div className="flex flex-col justify-center">
             <p className="text-2xl mb-2">{night} 晚</p>
             <p className="text-lg text-primary-120">
-              {startDate.toLocaleDateString().slice(0, 10)} ~ {endDate.toLocaleDateString().slice(0, 10)}
+              {startDate.toLocaleDateString()} ~ {endDate.toLocaleDateString()}
             </p>
           </div>
           <div className="flex space-x-5">
             <div className="border border-dark w-full pl-3 pr-10 py-3 rounded-lg">
               <p className="text-sm mb-2">入住</p>
-              <p>{startDate.toLocaleDateString().slice(0, 10)}</p>
+              <p> {startDate.toLocaleDateString()}</p>
             </div>
             <div className="border border-dark w-full  pl-3 pr-10  py-3 rounded-lg">
               <p className="text-sm mb-2">退房</p>
-              <p>{endDate.toLocaleDateString().slice(0, 10)}</p>
+              <p>{endDate.toLocaleDateString()}</p>
             </div>
           </div>
         </div>
@@ -279,7 +284,7 @@ const Room = () => {
                     </span>
                   </p>
                   <p className="text-base text-primary-120">
-                    {startDate.toLocaleDateString().slice(0, 10)} ~ {endDate.toLocaleDateString().slice(0, 10)}
+                    {startDate.toLocaleDateString()} ~ {endDate.toLocaleDateString()}
                   </p>
                 </div>
 
@@ -345,7 +350,7 @@ const Room = () => {
                   <div className="p-5 flex flex-col justify-center">
                     <p className="text-2xl mb-2 text-dark">{night} 晚</p>
                     <p className="text-lg text-primary-120">
-                      {startDate.toLocaleDateString().slice(0, 10)} ~ {endDate.toLocaleDateString().slice(0, 10)}
+                      {startDate.toLocaleDateString()} ~ {endDate.toLocaleDateString()}
                     </p>
                   </div>
 

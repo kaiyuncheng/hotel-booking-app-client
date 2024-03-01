@@ -4,9 +4,9 @@ import { IUser } from './user';
 export interface IOrder {
   _id?: string;
   userInfo?: IUser | null;
-  roomId?: IRoom;
-  checkInDate?: Date | null;
-  checkOutDate?: Date | null;
+  roomId?: IRoom | string | null;
+  checkInDate?: Date | string | null;
+  checkOutDate?: Date | string | null;
   peopleNum?: number;
   orderUserId?: string;
   status?: number;

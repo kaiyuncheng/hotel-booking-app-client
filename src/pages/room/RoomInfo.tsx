@@ -10,7 +10,7 @@ const RoomInfo = ({ title, data }: Props) => {
   return (
     <>
       <TitleRoomInfo>{title}</TitleRoomInfo>
-      <div className="flex flex-wrap bg-white rounded-lg px-8 pt-8 pb-3">
+      <div className="flex flex-wrap bg-white border rounded-lg px-8 pt-8 pb-3">
         {data?.map((item, i) => {
           return (
             <div className="flex justify-center items-center mr-5 md:mr-10 mb-5" key={`roomInfoItem_${i}`}>

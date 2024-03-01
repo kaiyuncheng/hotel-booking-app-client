@@ -21,7 +21,7 @@ const RoomInfoList = ({ result }: Props) => {
                 />
               </svg>
             </div>
-            <p className="whitespace-nowrap">{result.areaInfo}</p>
+            <p className="whitespace-nowrap">{result?.areaInfo}</p>
           </div>
           <div className="flex flex-col justify-center items-center rounded-lg p-4 w-24 h-24 bg-white">
             <div className="mb-2">
@@ -39,7 +39,7 @@ const RoomInfoList = ({ result }: Props) => {
                 </defs>
               </svg>
             </div>
-            <p className="whitespace-nowrap">{result.bedInfo}</p>
+            <p className="whitespace-nowrap">{result?.bedInfo}</p>
           </div>
           <div className="flex flex-col justify-center items-center rounded-lg p-4 w-24 h-24 bg-white">
             <div className="mb-2">
@@ -57,18 +57,18 @@ const RoomInfoList = ({ result }: Props) => {
                 </defs>
               </svg>
             </div>
-            <p className="whitespace-nowrap">{result.maxPeople}人</p>
+            <p className="whitespace-nowrap">{result?.maxPeople}人</p>
           </div>
         </div>
       </div>
       <div className="mb-5 md:mb-12">
-        <RoomInfo title="房間格局" data={result.layoutInfo} />
+        <RoomInfo title="房間格局" data={result?.layoutInfo} />
       </div>
       <div className="mb-5 md:mb-12">
-        <RoomInfo title="房內設備" data={result.facilityInfo} />
+        <RoomInfo title="房內設備" data={result?.facilityInfo} />
       </div>
       <div className="mb-5 md:mb-12">
-        <RoomInfo title="備品提供" data={result.amenityInfo} />
+        <RoomInfo title="備品提供" data={result?.amenityInfo} />
       </div>
     </>
   );

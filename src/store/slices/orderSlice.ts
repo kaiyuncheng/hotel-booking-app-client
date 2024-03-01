@@ -7,7 +7,7 @@ export interface IOrderForm extends IOrder {
 }
 
 const initialState: IOrderForm = {
-  roomId: '',
+  roomId: null,
   checkInDate: null,
   checkOutDate: null,
   peopleNum: 2,
