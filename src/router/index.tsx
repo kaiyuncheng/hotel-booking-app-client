@@ -1,4 +1,4 @@
-import type { RouteObject } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import Home from '@/pages/home';
 import AuthOutlet from '@/components/AuthOutlet';
@@ -10,14 +10,14 @@ import ForgetPassword from '@/pages/forgetPassword';
 import NotFound from '@/pages/notFound';
 
 import Rooms from '@/pages/rooms';
-import Room from '@/pages/rooms/Room';
-import Booking from '@/pages/rooms/Booking';
+import Room from '@/pages/room';
+import Booking from '@/pages/booking';
 
 import UserLayout from '@/components/UserLayout';
 import User from '@/pages/user';
 import Orders from '@/pages/user/Orders';
 
-const routes: RouteObject[] = [
+const router = createHashRouter([
   {
     path: '/',
     element: <Layout />,
@@ -25,8 +25,8 @@ const routes: RouteObject[] = [
       { index: true, element: <Home /> },
       {
         path: '/rooms',
-        element: <Rooms />,
         children: [
+          { index: true, element: <Rooms /> },
           { path: '/rooms/:id', element: <Room /> },
           {
             path: '/rooms/:id/booking',
@@ -84,6 +84,6 @@ const routes: RouteObject[] = [
     element: <NotFound />,
     children: [],
   },
-];
+]);
 
-export default routes;
+export default router;

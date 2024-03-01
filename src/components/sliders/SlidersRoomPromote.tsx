@@ -51,7 +51,7 @@ const SlidersRoomPromote: React.FC<Props> = ({ items }) => {
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
 
-    beforeChange: (prev, next) => {
+    beforeChange: (_, next) => {
       setPages({ currentSlide: next });
     },
     customPaging: (i) => {

@@ -22,7 +22,7 @@ const SlidersBanners = () => {
     slidesToScroll: 1,
     slidesToShow: 1,
     initialSlide: 0,
-    beforeChange: (prev, next) => {
+    beforeChange: (_, next) => {
       setPages({ currentSlide: next });
     },
     customPaging: (i) => {

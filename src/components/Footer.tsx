@@ -2,11 +2,16 @@ import Container from '@/components/Container';
 import { Link } from 'react-router-dom';
 import logo from '@/assets/images/pc/logo.png';
 import line2 from '@/assets/images/pc/line2.png';
+import clsx from 'clsx';
 
-const Footer = () => {
+type Props = {
+  hasDeco?: boolean;
+};
+
+const Footer = ({ hasDeco = true }: Props) => {
   return (
-    <footer className="bg-dark text-white pt-5 pb-10">
-      <div className="mb-10">
+    <footer className={clsx(hasDeco && 'pt-5', !hasDeco && 'pt-10', 'bg-dark text-white pb-10')}>
+      <div className={clsx(hasDeco && 'block', !hasDeco && 'hidden', 'mb-10')}>
         <img className="w-full" src={line2} alt="line2" />
       </div>
       <Container>

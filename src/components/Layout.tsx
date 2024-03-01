@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Header from './Header';
@@ -43,6 +43,7 @@ const Layout = () => {
         theme="light"
         transition={Bounce}
       />
+      <ScrollRestoration />
     </>
   );
 };
