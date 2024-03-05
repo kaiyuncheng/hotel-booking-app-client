@@ -296,7 +296,7 @@ const Booking = () => {
             </div>
             <div className="w-full md:w-1/2 lg:w-2/5 mb-10">
               <div className="bg-white rounded-xl p-5 md:p-10 shadow-sm">
-                <div className="aspect-3/4 rounded-lg overflow-hidden mb-5">
+                <div className="aspect-[16/9] rounded-lg overflow-hidden mb-5">
                   <img
                     src={(orderInfo.roomId as IRoom)?.imageUrl}
                     alt={(orderInfo.roomId as IRoom)?.name}
@@ -306,9 +306,11 @@ const Booking = () => {
                 <h3 className="text-xl mb-5">價格詳情</h3>
                 <div className="flex justify-between mb-2">
                   <p className="font-semibold">
-                    NT$ {orderInfo.roomId?.price} x {orderInfo.night} 晚
+                    NT$ {(orderInfo.roomId as IRoom)?.price} x {orderInfo.night} 晚
                   </p>
-                  <p className="font-bold">NT$ {Number(orderInfo.roomId?.price) * Number(orderInfo.night)}</p>
+                  <p className="font-bold">
+                    NT$ {Number((orderInfo.roomId as IRoom)?.price) * Number(orderInfo.night)}
+                  </p>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 pb-8 mb-8">
                   <p className="font-semibold">住宿折扣</p>
@@ -375,7 +377,7 @@ const Booking = () => {
               <div className="bg-white rounded-xl p-5 md:p-10 shadow-sm text-dark">
                 <p className="text-primary-120 text-sm mb-2">預訂參考編號： {successOrder?._id}</p>
                 <h3 className="text-xl mb-5">即將來的行程</h3>
-                <div className="aspect-3/4 rounded-lg overflow-hidden mb-5">
+                <div className="aspect-[4/3] rounded-lg overflow-hidden mb-5">
                   <img
                     src={(orderInfo.roomId as IRoom)?.imageUrl}
                     alt={(orderInfo.roomId as IRoom)?.name}

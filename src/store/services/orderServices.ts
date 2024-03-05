@@ -6,7 +6,6 @@ import { RootState } from '../store';
 export interface OrdersRes extends IRes {
   result: IOrder[];
 }
-
 export interface OrderRes extends IRes {
   result: IOrder;
 }
@@ -27,12 +26,14 @@ export const orderServices = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Order'],
   endpoints: (builder) => ({
     getOrders: builder.query<OrdersRes, void>({
       query: () => ({
         url: `orders`,
         method: 'GET',
       }),
+      providesTags: ['Order'],
     }),
     getOrder: builder.query<OrderRes, string>({
       query: (id) => ({
@@ -46,14 +47,16 @@ export const orderServices = createApi({
         method: 'POST',
         body: dataForm,
       }),
+      invalidatesTags: ['Order'],
     }),
-    deleteOrder: builder.query<PostOrderRes, string>({
+    deleteOrder: builder.mutation<PostOrderRes, string>({
       query: (id) => ({
         url: `orders/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Order'],
     }),
   }),
 });
 
-export const { useGetOrdersQuery, useGetOrderQuery, usePostOrderMutation, useDeleteOrderQuery } = orderServices;
+export const { useGetOrdersQuery, useGetOrderQuery, usePostOrderMutation, useDeleteOrderMutation } = orderServices;
