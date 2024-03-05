@@ -29,7 +29,7 @@ const Culinary = () => {
       <Fade triggerOnce direction="up">
         <div className="w-full carousel carousel-center space-x-4 ml-4 pr-10 md:ml-[12%] md:pr-60">
           {!isLoading &&
-            data?.result.map((item) => {
+            data?.result?.map((item) => {
               return (
                 <div className="carousel-item relative" key={item._id}>
                   <div className="rounded-md overflow-hidden">

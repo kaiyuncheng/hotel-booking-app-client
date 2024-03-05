@@ -105,7 +105,6 @@ const EditPassword = ({ setIsEditUserInfoOpen, userInfo }: Props) => {
     if (watchAddress?.city && cityOrder) {
       const zip = handleZipCode(cityOrder, watchAddress.city);
       setZipCode(zip);
-      setValue('address.zipcode', Number(zip));
     } else {
       setZipCode('');
     }
