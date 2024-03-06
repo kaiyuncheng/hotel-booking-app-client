@@ -1,30 +1,89 @@
-# React + TypeScript + Vite
+# Hotel Booking
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+https://kaiyuncheng.github.io/hotel-booking-app-client/
 
-Currently, two official plugins are available:
+Hotel Booking is a RWD service website built using technologies such as React.js, Typescript, React Redux, Tailwind CSS, etc.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Features
 
-## Expanding the ESLint configuration
+**Landing page**
+<a href="https://kaiyuncheng.github.io/hotel-booking-app-client/" target="_blank">
+<img src="src/images/gif/index.gif" />
+</a>
+<br/><br/>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**Rooms**
+<p>
+  <a href="https://kaiyuncheng.github.io/hotel-booking-app-client/" target="_blank">
+    <img src="src/images/gif/room_browse.gif" />
+  </a>
+</p>
+<br/><br/>
 
-- Configure the top-level `parserOptions` property like this:
+**Booking a room**
+<p>
+  <a href="https://kaiyuncheng.github.io/hotel-booking-app-client/" target="_blank">
+    <img src="src/images/gif/room_booking.gif" />
+  </a>
+</p>
+<br/><br/>
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+
+**Booking a room - Mobile version**
+<p align="left">
+  <a href="https://kaiyuncheng.github.io/hotel-booking-app-client/" target="_blank">
+    <img src="src/images/gif/mb_room_booking.gif" />
+  </a>
+</p>
+<br/><br/>
+
+**User sign up**
+<a href="https://kaiyuncheng.github.io/hotel-booking-app-client/" target="_blank">
+<img src="src/images/gif/signup.gif" />
+</a>
+<br/><br/>
+
+**User password and info - edit**
+<a href="https://kaiyuncheng.github.io/hotel-booking-app-client/" target="_blank">
+<img src="src/images/gif/user_edit.gif" />
+</a>
+<br/><br/>
+
+---
+
+## Core skills used in this project
+
+- React.js
+- Typescript
+- Vite
+- React Redux / Redux Toolkit / RTK query
+- Tailwind CSS
+- React Hook Form / Yup
+- ESLint
+- Prettier
+
+---
+
+# Prerequisites
+
+Node.js version - v20.11.0
+
+---
+
+## Project setup
+
+```
+npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Compiles and minifies for production
+
+```
+npm run build
+```
+
+### Lints and fixes files
+
+```
+npm run lint
+```

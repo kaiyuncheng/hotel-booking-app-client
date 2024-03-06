@@ -136,7 +136,7 @@ const Room = () => {
   };
 
   return (
-    <div className="bg-primary-40 relative pb-16">
+    <div className="bg-primary-40 relative pb-16 md:pb-0">
       <Container>
         {isLoading && (
           <div className="w-full flex justify-center py-[300px]">

@@ -31,6 +31,7 @@ type EditUserInfoForm = {
   phone: string;
   birthday: { year: string; month: string; day: string };
   address: {
+    zipcode?: string | number;
     detail: string;
     county: string;
     city: string;
@@ -70,6 +71,7 @@ const EditPassword = ({ setIsEditUserInfoOpen, userInfo }: Props) => {
         day: String(parseInt((userInfo?.birthday as string)?.slice(8, 10), 10)) || '',
       },
       address: {
+        zipcode: '',
         detail: userInfo?.address?.detail || '',
         county: userInfo?.address?.county || '',
         city: userInfo?.address?.city || '',
@@ -105,6 +107,7 @@ const EditPassword = ({ setIsEditUserInfoOpen, userInfo }: Props) => {
     if (watchAddress?.city && cityOrder) {
       const zip = handleZipCode(cityOrder, watchAddress.city);
       setZipCode(zip);
+      setValue('address.zipcode', zip);
     } else {
       setZipCode('');
     }
@@ -117,6 +120,7 @@ const EditPassword = ({ setIsEditUserInfoOpen, userInfo }: Props) => {
         ...data,
         birthday: `${(data?.birthday as IBirthday)?.year}/${(data?.birthday as IBirthday)?.month}/${(data?.birthday as IBirthday)?.day}`,
         userId: userInfo._id,
+        address: { ...data.address, zipcode: zipCode },
       };
       const res = await updateUser(dataForm).unwrap();
       if (res.status) {

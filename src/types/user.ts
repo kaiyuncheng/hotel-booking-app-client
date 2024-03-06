@@ -1,5 +1,5 @@
 export interface IAddress {
-  zipcode?: number | null;
+  zipcode?: string | number | null;
   detail?: string;
   county?: string;
   city?: string;
