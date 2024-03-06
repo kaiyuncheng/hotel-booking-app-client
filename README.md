@@ -61,6 +61,9 @@ Hotel Booking is a RWD service website built using technologies such as React.js
 - React Hook Form / Yup
 - ESLint
 - Prettier
+- Responsive Web Design
+- RESTful API
+- Git Version Control
 
 ---
 
